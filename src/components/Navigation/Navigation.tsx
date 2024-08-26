@@ -10,8 +10,11 @@ const Navbar: FC = () => {
           <h2>HEPP</h2>
         </Link>
         <ul>
-          <Link href={'/'}>
-            <li>Recipes</li>
+          <Link href={'/about'}>
+            <li>About</li>
+          </Link>
+          <Link href={'/blog'}>
+            <li>Blog</li>
           </Link>
         </ul>
       </nav>

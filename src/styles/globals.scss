@@ -1,0 +1,94 @@
+@import './variables.scss';
+@import './mixins.scss';
+/* GLOBAL STYLE */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: var(--color-white);
+  background-color: var(--color-black);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Reset styles  start*/
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+ul,
+ol {
+  margin: 0;
+  font-weight: normal;
+}
+
+ol,
+ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  background: none;
+  font-family: inherit;
+  font-size: 1.4rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+h1 {
+  font-size: 5.6rem;
+}
+
+h2 {
+  font-size: 4rem;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: 2.5rem;
+}
+
+li,
+p,
+a {
+  font-size: 1.6rem;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+a:hover {
+  cursor: pointer;
+}

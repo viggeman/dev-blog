@@ -3,7 +3,7 @@ import Grid from '@/components/Grid';
 import Layout from '@/components/Layout/Layout';
 import Page from '@/components/Page';
 import Teaser from '@/components/Teaser';
-import '@/styles/globals.css';
+import '@/styles/globals.scss';
 import { apiPlugin, storyblokInit } from '@storyblok/react';
 import type { AppProps } from 'next/app';
 

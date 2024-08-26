@@ -1,0 +1,36 @@
+:root {
+  --site-padding: 6rem;
+  --dialog-padding: 2rem;
+
+  --grid-column-gap: 1rem;
+
+  --image-ratio: 1.32;
+  --header-height: 5rem;
+
+  --font-text: sans-serif;
+  --font-headline: serif;
+
+  // @media (max-width: 1000px) {
+  //   --site-padding: 1.8rem;
+  //   --dialog-padding: 1.8rem;
+  // }
+
+  --color-black-rgb: 0, 0, 0;
+  --color-white-rgb: 255, 255, 255;
+  --color-error-rgb: 204, 102, 119;
+  --color-success-rgb: 51, 172, 107;
+  --color-pending-rgb: 231, 142, 70;
+
+  --color-placeholder: #999;
+  --color-gray: rgba(var(--color-black-rgb), 0.08);
+  --color-black: rgb(var(--color-black-rgb));
+  --color-white: rgb(var(--color-white-rgb));
+
+  --color-error: rgb(var(--color-error-rgb));
+  --color-pending: rgb(var(--color-pending-rgb));
+  --color-success: rgb(var(--color-success-rgb));
+
+  --header-z-index: 50;
+  --dialog-z-index: 100;
+  --backdrop-z-index: 75;
+}

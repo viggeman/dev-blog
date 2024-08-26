@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Layout from '../components/Layout/Layout';
 
 import {
   getStoryblokApi,
@@ -15,6 +14,7 @@ interface Props {
 
 const Page: FC<Props> = ({ story }) => {
   story = useStoryblokState(story);
+  console.log('story', story);
 
   return (
     <div>
@@ -22,15 +22,15 @@ const Page: FC<Props> = ({ story }) => {
         <title>{story ? story.name : 'My Site'}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <StoryblokComponent blok={story.content} />
-      </Layout>
+      <h1>{story ? story.name : 'MySite'}</h1>
+      <StoryblokComponent blok={story.content} />
     </div>
   );
 };
 
 export async function getStaticProps({ params }: { params: { slug: any } }) {
   let slug = params.slug ? params.slug.join('/') : 'home';
+  console.log('skug', slug);
 
   let sbParams: any = {
     version: 'draft', // or 'published'
