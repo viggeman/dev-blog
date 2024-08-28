@@ -1,4 +1,3 @@
-import styles from '@/styles/Home.module.css';
 import {
   getStoryblokApi,
   StoryblokComponent,
@@ -24,11 +23,7 @@ const Home: React.FC<Props> = ({ story }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header>
-        <h1>{story ? story.name : 'MySite'}</h1>
-      </header>
       <StoryblokComponent blok={story.content} />
-      <main className={`${styles.main} ${inter.className}`}></main>
     </>
   );
 };

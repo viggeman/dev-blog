@@ -1,0 +1,23 @@
+@import 'src/styles/mixins';
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center content horizontally
+  text-align: center; // Center text
+
+  div {
+    margin-bottom: 20px; // Add some space below the image and heading
+
+    img {
+      max-width: 100%; // Ensure the image doesn't overflow its container
+      height: 300; // Maintain aspect ratio
+      border-radius: 5px; // Add a subtle rounded corner
+    }
+
+    h1 {
+      @include md-title;
+      margin-top: 10px; // Add a bit of space above the heading
+    }
+  }
+}

@@ -17,14 +17,13 @@ const Page: FC<Props> = ({ story }) => {
   console.log('story', story);
 
   return (
-    <div>
+    <>
       <Head>
         <title>{story ? story.name : 'My Site'}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>{story ? story.name : 'MySite'}</h1>
       <StoryblokComponent blok={story.content} />
-    </div>
+    </>
   );
 };
 
