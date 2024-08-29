@@ -1,8 +1,5 @@
-import {
-  getStoryblokApi,
-  StoryblokComponent,
-  useStoryblokState,
-} from '@storyblok/react';
+import styles from '@/styles/Index.module.scss';
+import { getStoryblokApi, StoryblokComponent, useStoryblokState } from '@storyblok/react';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 
@@ -23,7 +20,9 @@ const Home: React.FC<Props> = ({ story }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <StoryblokComponent blok={story.content} />
+      <main className={styles.container}>
+        <StoryblokComponent blok={story.content} />
+      </main>
     </>
   );
 };

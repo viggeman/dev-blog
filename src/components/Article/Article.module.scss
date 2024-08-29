@@ -1,0 +1,54 @@
+.container {
+  max-width: 10%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+  margin: 0 auto;
+  padding: var(--dialog-padding) 0;
+
+  // @media (min-width: 768px) {
+  //   flex-direction: row;
+  // }
+}
+
+.featuredImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+
+  // @media (min-width: 768px) {
+  //   width: 40%;
+  //   margin-right: 20px;
+  //   margin-bottom: 0;
+  // }
+}
+
+.textContent {
+  h1.title {
+    margin-bottom: 10px;
+  }
+
+  h2.subtitle {
+    margin-bottom: 5px;
+  }
+
+  span.date {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+  }
+
+  h3.author {
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  div.content {
+    // Add any specific content styling here if needed
+  }
+}

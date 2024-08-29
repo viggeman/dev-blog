@@ -1,3 +1,4 @@
+import Article from '@/components/Article/Article';
 import Feature from '@/components/Feature/Feature';
 import Grid from '@/components/Grid/Grid';
 import Hero from '@/components/Hero/Hero';
@@ -14,6 +15,7 @@ const components = {
   teaser: Teaser,
   page: Page,
   hero: Hero,
+  article: Article,
 };
 
 storyblokInit({
