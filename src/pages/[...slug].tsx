@@ -18,7 +18,6 @@ const Page: FC<Props> = ({ story }) => {
         <title>{story ? story.name : 'My Site'}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>{story.name}</h1>
       <StoryblokComponent blok={story.content} />
     </>
   );

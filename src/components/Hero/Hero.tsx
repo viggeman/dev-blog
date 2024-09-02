@@ -1,6 +1,7 @@
 import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
 import { FC } from 'react';
+import Button from '../Button/Button';
 import styles from './Hero.module.scss';
 
 interface Props {
@@ -11,13 +12,12 @@ const Hero: FC<Props> = ({ blok }) => {
   return (
     <div
       {...storyblokEditable(blok)}
-      className={`${styles.hero} ${
-        blok.layout === 'constrained' ? styles.constrained : ''
-      }`}
+      className={`${styles.hero} ${blok.layout === 'constrained' ? styles.constrained : ''}`}
     >
       <div className={styles.textContainer}>
         <h1>{blok.headline}</h1>
         <h2>{blok.subheadline}</h2>
+        {blok.link?.cached_url && <Button href={blok.link.cached_url} text={blok.button_text} />}
       </div>
       <Image
         src={blok.background_image.filename}

@@ -1,36 +1,38 @@
-import { getStoryblokApi } from '@storyblok/react';
+import { getStoryblokApi, storyblokEditable } from '@storyblok/react';
 import { FC, useEffect, useState } from 'react';
+import ArticleTeaser from '../ArticleTeaser/ArticleTeaser';
 
 interface Props {
-  article: any[];
   blok: any;
 }
 
-const AllArticles: FC<Props> = ({ article, blok }) => {
-  console.log('article', article);
-  const [articles, setArticles] = useState([]);
+const AllArticles: FC<Props> = ({ blok }) => {
+  const [articles, setArticles] = useState<any[]>([]);
+
   useEffect(() => {
     const getArticles = async () => {
       const storyblokApi = getStoryblokApi();
       const { data } = await storyblokApi.get(`cdn/stories`, {
-        version: 'draft', // or 'published'
+        version: 'draft',
         starts_with: 'blog/',
         is_startpage: false,
       });
 
-      setArticles((prev) =>
-        data.stories.map((article: { content: { slug: any }; slug: any }) => {
-          article.content.slug = article.slug;
-          return article;
-        })
-      );
+      setArticles(data.stories);
+      console.log('articles', articles);
     };
+
     getArticles();
   }, []);
-  console.log('articlesss', articles);
+
   return (
     <>
       <p>{blok.title}</p>
+      <div {...storyblokEditable(blok)}>
+        {articles.map((article: any) => (
+          <ArticleTeaser article={article.content} key={article.uuid} blok={undefined} />
+        ))}
+      </div>
     </>
   );
 };
