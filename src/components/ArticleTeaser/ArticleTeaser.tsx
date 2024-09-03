@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import styles from './ArticleTeaser.module.scss';
@@ -7,15 +8,21 @@ interface Props {
 }
 
 const ArticleTeaser: FC<Props> = ({ article }) => {
+  const teaserContent = article.content;
   return (
     <div className={styles.container}>
       <div>
-        <img src={article.content.image.filename} alt="hej" />
-        <h2>{article.name}</h2>
-        <div>{article.content.teaser}</div>
-        <div>
-          <Link href={`/blog/${article.slug}`}>Read More »</Link>
-        </div>
+        <Image
+          src={teaserContent.image.filename}
+          alt={teaserContent.image.alt}
+          width={1200}
+          height={600}
+          style={{ objectFit: 'cover' }}
+          className={styles.featuredImage}
+        />
+        <h2>{teaserContent.title}</h2>
+        <div>{teaserContent.teaser}</div>
+        <Link href={`/blog/${article.slug}`}>Read More »</Link>
       </div>
     </div>
   );
