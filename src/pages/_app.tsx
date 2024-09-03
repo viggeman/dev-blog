@@ -1,4 +1,3 @@
-import AllArticles from '@/components/AllArticles/AllArticles';
 import Article from '@/components/Article/Article';
 import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import Feature from '@/components/Feature/Feature';
@@ -19,7 +18,6 @@ const components = {
   hero: Hero,
   article: Article,
   articleteaser: ArticleTeaser,
-  allarticles: AllArticles,
 };
 
 storyblokInit({
