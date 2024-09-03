@@ -1,10 +1,10 @@
 import Article from '@/components/Article/Article';
-import { getStoryblokApi, ISbStoriesParams } from '@storyblok/react';
+import { getStoryblokApi, ISbStoriesParams, SbBlokData } from '@storyblok/react';
 import { FC } from 'react';
 import styles from './BlogPage.module.scss';
 
 interface Props {
-  story: any;
+  story: SbBlokData; // extend with types from SB
 }
 
 const BlogPage: FC<Props> = ({ story }) => {
@@ -21,6 +21,7 @@ export async function getStaticProps({ params }: any) {
 
   let sbParams: ISbStoriesParams = {
     version: 'draft', // or 'published'
+    resolve_links: 'url',
   };
 
   const storyblokApi = getStoryblokApi();
