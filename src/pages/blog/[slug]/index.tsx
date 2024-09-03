@@ -1,21 +1,23 @@
+import Article from '@/components/Article/Article';
 import { getStoryblokApi, ISbStoriesParams } from '@storyblok/react';
 import { FC } from 'react';
 import styles from './BlogPage.module.scss';
 
-interface Props {}
+interface Props {
+  story: any;
+}
 
-const BlogPage: FC<Props> = ({ data }: any) => {
-  console.log('data', data);
+const BlogPage: FC<Props> = ({ story }) => {
+  const articleContent = story.content;
   return (
-    <div>
-      <div className={styles.container}>index fanskap</div>
+    <div className={styles.container}>
+      <Article article={articleContent} />
     </div>
   );
 };
 
 export async function getStaticProps({ params }: any) {
   const slug = params.slug;
-  console.log('propslug', params);
 
   let sbParams: ISbStoriesParams = {
     version: 'draft', // or 'published'
@@ -25,6 +27,7 @@ export async function getStaticProps({ params }: any) {
 
   try {
     let { data } = await storyblokApi.get(`cdn/stories/blog/${slug}`, sbParams);
+
     return {
       props: {
         // story: data ? data.story : false,
@@ -53,10 +56,7 @@ export async function getStaticPaths() {
 
   Object.values(links).forEach((link: any) => {
     const slug = link.slug;
-    // console.log('found', slug);
-
     paths.push({ params: { slug: slug } });
-    // console.log('paths', paths);
   });
 
   console.log(paths);

@@ -15,11 +15,12 @@ interface Props {
 
 const index: FC<Props> = ({ data }) => {
   const { stories } = data;
+  // console.log('stories', stories);
 
   return (
     <div className={styles.grid}>
       {stories.map((article: any) => (
-        <ArticleTeaser article={article} />
+        <ArticleTeaser article={article} key={article.id} />
       ))}
     </div>
   );
