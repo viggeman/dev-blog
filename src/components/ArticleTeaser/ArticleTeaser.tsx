@@ -4,24 +4,17 @@ import styles from './ArticleTeaser.module.scss';
 
 interface Props {
   article: any;
-  blok: any;
 }
 
-const ArticleTeaser: FC<Props> = ({ article, blok }) => {
+const ArticleTeaser: FC<Props> = ({ article }) => {
   return (
     <div className={styles.container}>
-      <div className="p-6">
-        <img
-          className="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl"
-          src={article.image.filename}
-          alt={blok.image.alt}
-        />
-        <h2>{article.title}</h2>
-        <div>{article.teaser}</div>
+      <div>
+        <img src={article.content.image.filename} alt="hej" />
+        <h2>{article.name}</h2>
+        <div>{article.content.teaser}</div>
         <div>
-          <Link href={`/blog/${article.slug}`}>
-            <a title="read more">Read More »</a>
-          </Link>
+          <Link href={`/blog/${article.slug}`}>Read More »</Link>
         </div>
       </div>
     </div>
