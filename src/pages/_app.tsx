@@ -3,8 +3,11 @@ import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import Feature from '@/components/Feature/Feature';
 import Grid from '@/components/Grid/Grid';
 import Hero from '@/components/Hero/Hero';
+import ImageComponent from '@/components/Image/Image';
 import Layout from '@/components/Layout/Layout';
+import LinkComponent from '@/components/Link/Link';
 import Page from '@/components/Page';
+import RichText from '@/components/RichText/RichText';
 import Teaser from '@/components/Teaser';
 import '@/styles/globals.scss';
 import { apiPlugin, storyblokInit } from '@storyblok/react';
@@ -18,6 +21,9 @@ const components = {
   hero: Hero,
   article: Article,
   articleteaser: ArticleTeaser,
+  component_image: ImageComponent,
+  component_link: LinkComponent,
+  component_rich_text: RichText,
 };
 
 storyblokInit({
