@@ -1,17 +1,24 @@
+import { storyblokEditable } from '@storyblok/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
 interface Props {
-  blok: any;
+  blok: {
+    label: string;
+    link: {
+      cached_url: string;
+    };
+  };
 }
 
 const LinkComponent: FC<Props> = ({ blok }) => {
-  const url = blok.link.cached_url;
+  const { label, link } = blok;
+  const url = link.cached_url;
   const path = url === 'home' ? '/' : `/${url}`;
 
   return (
-    <div>
-      <Link href={path}>{blok.label}</Link>
+    <div {...storyblokEditable(blok)}>
+      <Link href={path}>{label}</Link>
     </div>
   );
 };

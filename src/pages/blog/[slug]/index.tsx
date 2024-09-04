@@ -1,19 +1,18 @@
-import Article from '@/components/Article/Article';
-import { getStoryblokApi, ISbStoriesParams, SbBlokData } from '@storyblok/react';
+import {
+  getStoryblokApi,
+  ISbStoriesParams,
+  StoryblokComponent,
+  useStoryblokState,
+} from '@storyblok/react';
 import { FC } from 'react';
-import styles from './BlogPage.module.scss';
 
 interface Props {
-  story: SbBlokData; // extend with types from SB
+  story: any; // extend with types from SB
 }
 
-const BlogPage: FC<Props> = ({ story }) => {
-  const articleContent = story.content;
-  return (
-    <div className={styles.container}>
-      <Article article={articleContent} />
-    </div>
-  );
+const Blog: FC<Props> = ({ story }) => {
+  story = useStoryblokState(story);
+  return <StoryblokComponent blok={story.content} />;
 };
 
 export async function getStaticProps({ params }: any) {
@@ -60,12 +59,10 @@ export async function getStaticPaths() {
     paths.push({ params: { slug: slug } });
   });
 
-  console.log(paths);
-
   return {
     paths: paths,
     fallback: 'blocking',
   };
 }
 
-export default BlogPage;
+export default Blog;
