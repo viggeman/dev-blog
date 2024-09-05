@@ -5,7 +5,7 @@ interface Props {
   blok: any;
 }
 
-const Page: FC<Props> = ({ blok }) => {
+const StartPage: FC<Props> = ({ blok }) => {
   return (
     <main {...storyblokEditable(blok)}>
       {blok.body.map((nestedBlok: any) => (
@@ -15,4 +15,4 @@ const Page: FC<Props> = ({ blok }) => {
   );
 };
 
-export default Page;
+export default StartPage;

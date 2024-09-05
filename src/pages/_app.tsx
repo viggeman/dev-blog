@@ -1,4 +1,3 @@
-import Article from '@/components/Article/Article';
 import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import Feature from '@/components/Feature/Feature';
 import Grid from '@/components/Grid/Grid';
@@ -6,20 +5,21 @@ import Hero from '@/components/Hero/Hero';
 import ImageComponent from '@/components/Image/Image';
 import Layout from '@/components/Layout/Layout';
 import LinkComponent from '@/components/Link/Link';
-import Page from '@/components/Page';
 import RichText from '@/components/RichText/RichText';
-import Teaser from '@/components/Teaser';
+import BlogTemplate from '@/components/StoryblokPages/BlogTemplate/BlogTemplate';
+import StartPage from '@/components/StoryblokPages/StartTemplate/StartPage';
+import Teaser from '@/components/Teaser/Teaser';
 import '@/styles/globals.scss';
 import { apiPlugin, storyblokInit } from '@storyblok/react';
 import type { AppProps } from 'next/app';
-
 const components = {
+  start_page: StartPage,
+  blog_page: BlogTemplate,
+  // blog_listing_page: BlogListingPage,
   feature: Feature,
   grid: Grid,
   teaser: Teaser,
-  page: Page,
   hero: Hero,
-  article: Article,
   articleteaser: ArticleTeaser,
   component_image: ImageComponent,
   component_link: LinkComponent,

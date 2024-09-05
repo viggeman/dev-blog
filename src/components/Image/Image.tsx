@@ -1,3 +1,4 @@
+import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -13,11 +14,13 @@ interface Props {
 }
 
 const ImageComponent: FC<Props> = ({ blok }) => {
+  console.log('iamgecomp', blok);
+  const { title, caption, image } = blok;
   return (
-    <div>
-      <h3>{blok.title}</h3>
-      <Image src={blok.image.filename} alt={blok.image.alt} width={500} height={300} />
-      <p>{blok.caption}</p>
+    <div {...storyblokEditable(blok)}>
+      <h3>{title}</h3>
+      <Image src={image.filename} alt={image.alt} width={500} height={300} />
+      <p>{caption}</p>
     </div>
   );
 };

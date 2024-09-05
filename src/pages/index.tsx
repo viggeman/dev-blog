@@ -1,4 +1,3 @@
-import styles from '@/styles/Index.module.scss';
 import { getStoryblokApi, StoryblokComponent, useStoryblokState } from '@storyblok/react';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
@@ -20,9 +19,7 @@ const Home: React.FC<Props> = ({ story }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.container}>
-        <StoryblokComponent blok={story.content} />
-      </main>
+      <StoryblokComponent blok={story.content} />
     </>
   );
 };
@@ -35,8 +32,6 @@ export async function getStaticProps() {
   let sbParams: any = {
     version: 'draft', // or 'published'
   };
-
-  console.log('HERE!!!');
 
   const storyblokApi = getStoryblokApi();
   let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
