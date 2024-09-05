@@ -6,6 +6,7 @@ import ImageComponent from '@/components/Image/Image';
 import Layout from '@/components/Layout/Layout';
 import LinkComponent from '@/components/Link/Link';
 import RichText from '@/components/RichText/RichText';
+import BlogListingPage from '@/components/StoryblokPages/BlogListingPage';
 import BlogTemplate from '@/components/StoryblokPages/BlogTemplate/BlogTemplate';
 import StartPage from '@/components/StoryblokPages/StartTemplate/StartPage';
 import Teaser from '@/components/Teaser/Teaser';
@@ -15,7 +16,7 @@ import type { AppProps } from 'next/app';
 const components = {
   start_page: StartPage,
   blog_page: BlogTemplate,
-  // blog_listing_page: BlogListingPage,
+  blog_listing_page: BlogListingPage,
   feature: Feature,
   grid: Grid,
   teaser: Teaser,

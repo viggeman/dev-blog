@@ -1,47 +1,49 @@
-/*
-Fetch all article slugs from Storyblok in getStaticPaths
-Fetch all blog articles content from Storyblok on getStaticProps
-Render <ArticleTeaser /> for each blog article found
-*/
-
-import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
-import { getStoryblokApi, ISbStoriesParams } from '@storyblok/react';
+import { getStoryblokApi, ISbStoriesParams, StoryblokComponent } from '@storyblok/react';
 import { FC } from 'react';
-import styles from './blog.module.scss';
 
 interface Props {
-  data: any;
+  blogData: any[];
+  pageData: any;
 }
 
-const index: FC<Props> = ({ data }) => {
-  const { stories } = data;
-  // console.log('stories', stories);
+const BlogIndex: FC<Props> = ({ blogData, pageData }) => {
+  // blogData = useStoryblokState(blogData);
+  console.log('blogdata', blogData);
+  console.log('pagedarta', pageData);
 
   return (
-    <div className={styles.grid}>
-      {stories.map((article: any) => (
-        <ArticleTeaser article={article} key={article.id} />
-      ))}
-    </div>
+    <>
+      <StoryblokComponent blok={pageData.story} />
+      {/* {blogData.map((article) => (
+        <ArticleTeaser key={article.uuid} article={article} />
+      ))} */}
+    </>
   );
 };
 
 export async function getStaticProps() {
-  let sbParams: ISbStoriesParams = {
-    version: 'draft', // or 'published'
-    starts_with: 'blog',
-    sort_by: 'created_at:asc',
-  };
-
   const storyblokApi = getStoryblokApi();
-  let { data } = await storyblokApi.get(`cdn/stories`, sbParams);
+
+  let blogParams: ISbStoriesParams = {
+    version: 'draft',
+    content_type: 'blog_page',
+  };
+  let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
+
+  let pageParams: ISbStoriesParams = {
+    version: 'draft',
+    content_type: 'blog_listing_page',
+    is_startpage: true,
+  };
+  let { data: pageData } = await storyblokApi.get(`cdn/stories`, pageParams);
 
   return {
     props: {
-      data: data ? data : null,
+      blogData: blogData.stories,
+      pageData: pageData,
     },
     revalidate: 3600,
   };
 }
 
-export default index;
+export default BlogIndex;

@@ -1,24 +1,20 @@
+import { StoryblokComponent, storyblokEditable } from '@storyblok/react';
 import { FC } from 'react';
-import ArticleTeaser from '../ArticleTeaser/ArticleTeaser';
 
 interface Props {
   blok: any;
-  pages: any[];
+  page: any;
 }
 
-const BlogListingPage: FC<Props> = ({ blok }) => {
+const BlogListingPage: FC<Props> = ({ blok, page }) => {
   console.log('bloktemplate', blok);
+  console.log('page', page);
   return (
-    // <main {...storyblokEditable(blok)}>
-    //   {blok.body.map((nestedBlok: any) => (
-    //     <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
-    //   ))}
-    // </main>
-    <div>
-      {blok.map((article: any) => (
-        <ArticleTeaser article={article} key={article.id} />
+    <main {...storyblokEditable(blok)}>
+      {blok.body.map((nestedBlok: any) => (
+        <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
       ))}
-    </div>
+    </main>
   );
 };
 
