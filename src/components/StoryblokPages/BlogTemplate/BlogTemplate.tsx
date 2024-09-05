@@ -20,15 +20,19 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
         style={{ objectFit: 'cover' }}
         className={styles.featuredImage}
       />
-      <div className={styles.textblok}>
+      <div className={styles.intro}>
         <h1 className={styles.title}>{title}</h1>
-        <h2 className={styles.subtitle}>{subtitle}</h2>
-        <span className={styles.date}>{date}</span>
-        <h3 className={styles.author}>{author}</h3>
+        <p className={styles.author}>Written by: {author}</p>
+        <p className={styles.date}>Published: {date}</p>
       </div>
-      {body.map((nestedBlok: any) => (
-        <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
-      ))}
+      <div className={styles.content}>
+        <h2 className={styles.subtitle}>{subtitle}</h2>
+        <div className={styles.richText}>
+          {body.map((nestedBlok: any) => (
+            <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+          ))}
+        </div>
+      </div>
     </main>
   );
 };
