@@ -7,16 +7,9 @@ interface Props {
 }
 
 const BlogIndex: FC<Props> = ({ blogData, pageData }) => {
-  // blogData = useStoryblokState(blogData);
-  console.log('blogdata', blogData);
-  console.log('pagedarta', pageData);
-
   return (
     <>
-      <StoryblokComponent blok={pageData.story} />
-      {/* {blogData.map((article) => (
-        <ArticleTeaser key={article.uuid} article={article} />
-      ))} */}
+      <StoryblokComponent blok={pageData.content} articles={blogData} />
     </>
   );
 };
@@ -27,23 +20,29 @@ export async function getStaticProps() {
   let blogParams: ISbStoriesParams = {
     version: 'draft',
     content_type: 'blog_page',
+    resolve_links: 'url',
   };
-  let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
-
   let pageParams: ISbStoriesParams = {
     version: 'draft',
-    content_type: 'blog_listing_page',
-    is_startpage: true,
   };
-  let { data: pageData } = await storyblokApi.get(`cdn/stories`, pageParams);
 
-  return {
-    props: {
-      blogData: blogData.stories,
-      pageData: pageData,
-    },
-    revalidate: 3600,
-  };
+  try {
+    let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
+    let { data: pageData } = await storyblokApi.get(`cdn/stories/blog`, pageParams);
+
+    return {
+      props: {
+        blogData: blogData.stories,
+        pageData: pageData.story,
+      },
+      revalidate: 3600,
+    };
+  } catch (error: any) {
+    console.error(error.message);
+    return {
+      notFound: true, // sends to 404
+    };
+  }
 }
 
 export default BlogIndex;

@@ -14,7 +14,6 @@ interface Props {
 }
 
 const ImageComponent: FC<Props> = ({ blok }) => {
-  console.log('iamgecomp', blok);
   const { title, caption, image } = blok;
   return (
     <div {...storyblokEditable(blok)}>
