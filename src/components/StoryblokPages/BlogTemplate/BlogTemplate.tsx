@@ -10,16 +10,29 @@ interface Props {
 // TEmplate folders
 const BlogTemplate: FC<Props> = ({ blok }) => {
   const { image, title, subtitle, date, author, body } = blok;
+  const formatDate = new Date(date).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+  console.log('date', formatDate);
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
+      <h1 className={[styles.title, styles.hideDesktop].join(' ')}>{title}</h1>
       <div className={styles.featuredImage}>
         <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
       </div>
       <div className={styles.contentGrid}>
         <div className={styles.intro}>
-          <h1 className={styles.title}>{title}</h1>
-          <p className={styles.author}>Written by: {author}</p>
-          <p className={styles.date}>Published: {date}</p>
+          <h1 className={[styles.title, styles.hideMobile].join(' ')}>{title}</h1>
+          <p className={styles.author}>
+            <span>Written by: </span> <span>{author}</span>
+          </p>
+          <p className={styles.date}>
+            <span>Published: </span>
+            <span>{formatDate}</span>
+          </p>
         </div>
         <div className={styles.content}>
           <h2 className={styles.subtitle}>{subtitle}</h2>

@@ -8,6 +8,10 @@
   @include mobile {
     padding-top: var(--site-padding-mob);
   }
+  .title {
+    @include md_title;
+    margin-bottom: 2.2rem;
+  }
   .featuredImage {
     position: relative;
     width: 100%;
@@ -17,7 +21,6 @@
     border-radius: 1rem;
     @include mobile {
       padding-bottom: var(--image-ratio-portrait);
-
     }
   }
   .contentGrid {
@@ -44,12 +47,14 @@
       .title {
         @include md_title;
         margin-bottom: 2.8rem;
-        @include mobile {
-
-        }
       }
       .date, .author {
         font-size: 1.2rem;
+        display: flex;
+      }
+      p span:first-child {
+        font-weight: 700;
+        min-width: 9rem;
       }
     }
 
@@ -66,6 +71,17 @@
           margin-bottom: 4.8rem;
         }
       }
+    }
+  }
+  .hideDesktop {
+    @media (min-width: 1001px) {
+      display: none;
+    }
+  }
+
+  .hideMobile {
+    @media (max-width: 1000px) {
+      display: none;
     }
   }
 }

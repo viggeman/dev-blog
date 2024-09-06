@@ -87,3 +87,15 @@ img {
 a:hover {
   cursor: pointer;
 }
+
+.hideDesktop {
+  @media (min-width: 1001px) {
+    display: none;
+  }
+}
+
+.hideMobile {
+  @media (max-width: 1000px) {
+    display: none;
+  }
+}
