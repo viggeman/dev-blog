@@ -1,54 +1,71 @@
 @import 'src/styles/mixins.scss';
 
 .container {
-  max-width: 10%;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.contentWrapper {
   display: flex;
   flex-direction: column;
-  max-width: 60%;
   margin: 0 auto;
-  padding: var(--dialog-padding) 0;
-  // @media (min-width: 768px) {
-  //   flex-direction: row;
-  // }
-}
-
-.featuredImage {
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
-  // @media (min-width: 768px) {
-  //   width: 40%;
-  //   margin-right: 20px;
-  //   margin-bottom: 0;
-  // }
-}
-
-.intro {
-  h1.title {
-    @include md_title;
-    margin-bottom: 0.8rem
+  padding-top: var(--site-padding);
+  @include mobile {
+    padding-top: var(--site-padding-mob);
   }
+  .featuredImage {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: var(--image-ratio-landscape);
+    overflow: hidden;
+    border-radius: 1rem;
+    @include mobile {
+      padding-bottom: var(--image-ratio-portrait);
 
-  h2.subtitle {
-    @include sm_title;
-    margin-bottom: 0.8rem
+    }
   }
+  .contentGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    position: relative;
+    padding-top: var(--site-padding);
+    @include mobile {
+      grid-template-columns: 1fr;
+      padding-top: var(--site-padding-mob);
 
-  p.date {
-    font-size: 1.2rem;
-    margin-bottom: 0.8rem
+    }
+
+    .intro {
+      grid-column: span 1;
+      position: sticky;
+      top: 4rem;
+      height: calc(100vh - 4rem);
+      @include mobile {
+        position: static;
+        height: auto;
+      }
+      .title {
+        @include md_title;
+        margin-bottom: 2.8rem;
+        @include mobile {
+
+        }
+      }
+      .date, .author {
+        font-size: 1.2rem;
+      }
+    }
+
+    .content {
+      grid-column: span 1;
+
+      h2.subtitle {
+        @include sm_title;
+        margin-bottom: 4rem;
+      }
+
+      .body {
+        >* {
+          margin-bottom: 4.8rem;
+        }
+      }
+    }
   }
-
-  p.author {
-    font-size: 1.2rem;
-  }
-}
-
-.richText {
-  @include richtext;
 }

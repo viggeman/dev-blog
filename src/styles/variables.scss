@@ -1,10 +1,13 @@
 :root {
-  --site-padding: 6rem;
+  --site-padding: 4rem;
+  --site-padding-mob: 1.6rem;
   --dialog-padding: 2rem;
 
-  --grid-column-gap: 1rem;
+  --grid-column-gap: 4rem;
 
-  --image-ratio: 1.32;
+  --image-ratio-portrait: 132%;
+  --image-ratio-landscape: 50%;
+  --image-ratio-square: 100%;
   --header-height: 5rem;
 
   --font-text: sans-serif;
