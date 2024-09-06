@@ -12,6 +12,7 @@ interface Props {
 
 const Blog: FC<Props> = ({ story }) => {
   story = useStoryblokState(story);
+  console.log('story', story);
   return <StoryblokComponent blok={story.content} />;
 };
 
@@ -30,8 +31,6 @@ export async function getStaticProps({ params }: any) {
 
     return {
       props: {
-        // story: data ? data.story : false,
-        // key: data ? data.story.id : false,
         story: data.story,
       },
       revalidate: 3600,

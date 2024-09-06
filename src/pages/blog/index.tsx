@@ -1,47 +1,48 @@
-/*
-Fetch all article slugs from Storyblok in getStaticPaths
-Fetch all blog articles content from Storyblok on getStaticProps
-Render <ArticleTeaser /> for each blog article found
-*/
-
-import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
-import { getStoryblokApi, ISbStoriesParams } from '@storyblok/react';
+import { getStoryblokApi, ISbStoriesParams, StoryblokComponent } from '@storyblok/react';
 import { FC } from 'react';
-import styles from './blog.module.scss';
 
 interface Props {
-  data: any;
+  blogData: any[];
+  pageData: any;
 }
 
-const index: FC<Props> = ({ data }) => {
-  const { stories } = data;
-  // console.log('stories', stories);
-
+const BlogIndex: FC<Props> = ({ blogData, pageData }) => {
   return (
-    <div className={styles.grid}>
-      {stories.map((article: any) => (
-        <ArticleTeaser article={article} key={article.id} />
-      ))}
-    </div>
+    <>
+      <StoryblokComponent blok={pageData.content} articles={blogData} />
+    </>
   );
 };
 
 export async function getStaticProps() {
-  let sbParams: ISbStoriesParams = {
-    version: 'draft', // or 'published'
-    starts_with: 'blog',
-    sort_by: 'created_at:asc',
-  };
-
   const storyblokApi = getStoryblokApi();
-  let { data } = await storyblokApi.get(`cdn/stories`, sbParams);
 
-  return {
-    props: {
-      data: data ? data : null,
-    },
-    revalidate: 3600,
+  let blogParams: ISbStoriesParams = {
+    version: 'draft',
+    content_type: 'blog_page',
+    resolve_links: 'url',
   };
+  let pageParams: ISbStoriesParams = {
+    version: 'draft',
+  };
+
+  try {
+    let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
+    let { data: pageData } = await storyblokApi.get(`cdn/stories/blog`, pageParams);
+
+    return {
+      props: {
+        blogData: blogData.stories,
+        pageData: pageData.story,
+      },
+      revalidate: 3600,
+    };
+  } catch (error: any) {
+    console.error(error.message);
+    return {
+      notFound: true, // sends to 404
+    };
+  }
 }
 
-export default index;
+export default BlogIndex;
