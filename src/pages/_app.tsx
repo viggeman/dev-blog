@@ -1,6 +1,6 @@
+import ArticleSlider from '@/components/ArticleSlider/ArticleSlider';
 import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import Feature from '@/components/Feature/Feature';
-import Grid from '@/components/Grid/Grid';
 import Hero from '@/components/Hero/Hero';
 import ImageComponent from '@/components/Image/Image';
 import Layout from '@/components/Layout/Layout';
@@ -18,7 +18,7 @@ const components = {
   blog_page: BlogTemplate,
   blog_listing_page: BlogListingPage,
   feature: Feature,
-  grid: Grid,
+  article_slider: ArticleSlider,
   teaser: Teaser,
   hero: Hero,
   articleteaser: ArticleTeaser,
