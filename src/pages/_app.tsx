@@ -1,8 +1,8 @@
 import ArticleSlider from '@/components/ArticleSlider/ArticleSlider';
 import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
+import ImageComponent from '@/components/BlogImage/BlogImage';
 import Feature from '@/components/Feature/Feature';
 import Hero from '@/components/Hero/Hero';
-import ImageComponent from '@/components/Image/Image';
 import Layout from '@/components/Layout/Layout';
 import LinkComponent from '@/components/Link/Link';
 import RichText from '@/components/RichText/RichText';
@@ -22,7 +22,7 @@ const components = {
   teaser: Teaser,
   hero: Hero,
   articleteaser: ArticleTeaser,
-  component_image: ImageComponent,
+  component_blog_image: ImageComponent,
   component_link: LinkComponent,
   component_rich_text: RichText,
 };
