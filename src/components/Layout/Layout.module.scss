@@ -1,6 +1,11 @@
+@import 'src/styles/mixins.scss';
+
 .container {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 0 var(--site-padding)
+  padding: 0 var(--site-padding);
+  @include mobile {
+    padding: 0 var(--site-padding-mob);
+  }
 }

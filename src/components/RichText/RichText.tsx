@@ -1,15 +1,17 @@
 import { storyblokEditable } from '@storyblok/react';
 import { FC } from 'react';
 import { render } from 'storyblok-rich-text-react-renderer';
+import styles from './RichText.module.scss';
 
 interface Props {
   blok: any;
 }
 
 const RichText: FC<Props> = ({ blok }) => {
+  console.log('rtblok', render(blok.text));
   return (
     <div {...storyblokEditable(blok)}>
-      <div>{render(blok.text)}</div>
+      <div className={styles.richText}>{render(blok.text)}</div>
     </div>
   );
 };

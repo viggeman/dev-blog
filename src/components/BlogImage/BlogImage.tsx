@@ -1,6 +1,7 @@
 import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
 import { FC } from 'react';
+import styles from './BlogImage.module.scss';
 
 interface Props {
   blok: {
@@ -12,14 +13,17 @@ interface Props {
     };
   };
 }
-
+// REname to BlogImage
 const ImageComponent: FC<Props> = ({ blok }) => {
-  const { title, caption, image } = blok;
+  const { caption, image } = blok;
   return (
     <div {...storyblokEditable(blok)}>
-      <h3>{title}</h3>
-      <Image src={image.filename} alt={image.alt} width={500} height={300} />
-      <p>{caption}</p>
+      <div className={styles.imageWrapper}>
+        <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
+        <div className={styles.imageCaption}>
+          <p>{caption}</p>
+        </div>
+      </div>
     </div>
   );
 };
