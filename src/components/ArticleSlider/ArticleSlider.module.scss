@@ -1,17 +1,35 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+@import 'src/styles/mixins.scss';
+.articleSlider {
+  display: flex;
+  flex-direction: column;
 
-  gap: 2rem;
-
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+    margin-bottom: 2.4rem;
+    span {
+      font-size: 1.6rem;
+      padding-left: 0.8rem;
+      line-height: 1.1;
+    }
+    a {
+      font-size: 1.6rem;
+      border-bottom: 1px solid black;
+      line-height: 1;
+    }
   }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-
+  .sliderItems {
+    display: flex;
+    gap: 4rem;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    width: calc(100% + var(--site-padding) * 2);
+    transform: translateX(calc(var(--site-padding) * -1));
+    padding: 0 var(--site-padding);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

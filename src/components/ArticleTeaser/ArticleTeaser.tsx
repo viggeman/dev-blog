@@ -8,23 +8,27 @@ interface Props {
 }
 
 const ArticleTeaser: FC<Props> = ({ article }) => {
-  const teaserContent = article.content;
+  const { image, title, teaser, category } = article.content;
+  console.log('category', article);
+
   return (
-    <div className={styles.container}>
-      <div>
-        <Image
-          src={teaserContent.image.filename}
-          alt={teaserContent.image.alt}
-          width={1200}
-          height={600}
-          style={{ objectFit: 'cover' }}
-          className={styles.featuredImage}
-        />
-        <h2>{teaserContent.title}</h2>
-        <div>{teaserContent.teaser}</div>
-        <Link href={`/blog/${article.slug}`}>Read More »</Link>
+    <article className={styles.sliderItem}>
+      <div className={styles.imageWrapper}>
+        <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
       </div>
-    </div>
+      <div className={styles.contentTeaser}>
+        {category && (
+          <div className={styles.tagContainer}>
+            {category.map((item: any, index: number) => (
+              <span key={index}>{item}</span>
+            ))}
+          </div>
+        )}
+        <h2>{title}</h2>
+        <p>{teaser}</p>
+      </div>
+      <Link className={styles.floatingLink} href={`/blog/${article.slug}`} />
+    </article>
   );
 };
 

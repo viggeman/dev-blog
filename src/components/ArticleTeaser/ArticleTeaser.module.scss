@@ -1,0 +1,72 @@
+@import 'src/styles/mixins.scss';
+
+.sliderItem {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  flex: 0 0 34vw;
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 60%;
+    overflow: hidden;
+  }
+  .contentTeaser {
+    flex: 1;
+    padding: 2.4rem;
+    background-color: var(--primary-color);
+    color: var(--color-black-rgb);
+    padding-bottom: 3.2rem;
+    .tagContainer {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      span {
+        z-index: 3;
+        text-transform: capitalize;
+        padding: 0.8rem 1.2rem;
+        background-color: var(--color-white);
+        font-size: 1.2rem;
+        line-height: 1.1;
+        font-weight: 700;
+        border-radius: 10rem;
+      }
+      span:hover {
+        background-color: var(--color-black-hover);
+        color: var(--color-white);
+      }
+    }
+  }
+  h2 {
+    @include sm_title;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  p {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: auto;
+  }
+}
+.floatingLink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
