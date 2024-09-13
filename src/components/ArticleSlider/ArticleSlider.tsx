@@ -9,7 +9,6 @@ interface Props {
 }
 
 const ArticleSlider: FC<Props> = ({ blok }) => {
-  console.log('blkarticl', blok);
   const { title, featured_articles } = blok;
   return (
     <div className={styles.articleSlider} {...storyblokEditable(blok)}>

@@ -9,7 +9,6 @@ interface Props {
 
 const ArticleTeaser: FC<Props> = ({ article }) => {
   const { image, title, teaser, category } = article.content;
-  console.log('category', article);
 
   return (
     <article className={styles.sliderItem}>
@@ -27,7 +26,7 @@ const ArticleTeaser: FC<Props> = ({ article }) => {
         <h2>{title}</h2>
         <p>{teaser}</p>
       </div>
-      <Link className={styles.floatingLink} href={`/blog/${article.slug}`} />
+      <Link className={styles.floatingLink} href={`/${article.full_slug}`} />
     </article>
   );
 };
