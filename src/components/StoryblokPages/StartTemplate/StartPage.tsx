@@ -1,5 +1,7 @@
+import BackgroundGradient from '@/components/BackgroundGradient/BackgroundGradient';
 import { StoryblokComponent, storyblokEditable } from '@storyblok/react';
 import { FC } from 'react';
+import styles from './StartPage.module.scss';
 
 interface Props {
   blok: any;
@@ -7,11 +9,12 @@ interface Props {
 
 const StartPage: FC<Props> = ({ blok }) => {
   return (
-    <main {...storyblokEditable(blok)}>
+    <div className={styles.container} {...storyblokEditable(blok)}>
+      <BackgroundGradient />
       {blok.body.map((nestedBlok: any) => (
         <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
       ))}
-    </main>
+    </div>
   );
 };
 

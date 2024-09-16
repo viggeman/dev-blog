@@ -17,13 +17,14 @@
   //   --site-padding: 1.8rem;
   //   --dialog-padding: 1.8rem;
   // }
-  --primary-color: #FDF0EB;
+  --primary-color: #fdf0eb;
+  --color-gradient-bg-rgb: 243, 216, 216;
+  --color-gradient-bg: rgb(var(--color-gradient-bg-rgb));
   --color-black-rgb: 0, 0, 0;
   --color-white-rgb: 255, 255, 255;
   --color-error-rgb: 204, 102, 119;
   --color-success-rgb: 51, 172, 107;
   --color-pending-rgb: 231, 142, 70;
-
 
   --color-placeholder: #999;
   --color-gray: rgba(var(--color-black-rgb), 0.08);

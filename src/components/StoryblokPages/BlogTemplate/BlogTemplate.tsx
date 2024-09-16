@@ -16,7 +16,6 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
     year: 'numeric',
   });
 
-  console.log('date', formatDate);
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
       <h1 className={[styles.title, styles.hideDesktop].join(' ')}>{title}</h1>

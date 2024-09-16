@@ -66,6 +66,10 @@
   }
 }
 
+@mixin bg-gradient {
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
 @mixin mobile() {
   @media (max-width: 1024px) {
     @content;

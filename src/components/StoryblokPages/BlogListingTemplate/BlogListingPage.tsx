@@ -10,8 +10,6 @@ interface Props {
 }
 
 const BlogListingPage: FC<Props> = ({ blok, articles }) => {
-  console.log('bloktemplate', blok);
-  console.log('pages', articles);
   return (
     <div {...storyblokEditable(blok)}>
       <Image

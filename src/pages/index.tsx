@@ -10,7 +10,6 @@ interface Props {
 
 const Home: React.FC<Props> = ({ story }) => {
   story = useStoryblokState(story);
-  // console.log('data', story.content);
 
   return (
     <>

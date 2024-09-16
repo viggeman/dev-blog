@@ -12,7 +12,6 @@ interface Props {
 
 const Blog: FC<Props> = ({ story }) => {
   story = useStoryblokState(story);
-  console.log('story', story);
   return <StoryblokComponent blok={story.content} />;
 };
 
