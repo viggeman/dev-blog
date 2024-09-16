@@ -47,6 +47,13 @@
   padding: 0 var(--site-padding);
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  > * {
+    scroll-snap-align: start;
+
+    scroll-margin: 0 0 0 var(--site-padding);
+  }
+
   @include mobile {
     gap: var(--site-padding-mob);
     width: calc(100% + var(--site-padding-mob) * 2);
