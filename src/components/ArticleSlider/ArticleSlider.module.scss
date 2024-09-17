@@ -2,6 +2,7 @@
 .articleSlider {
   display: flex;
   flex-direction: column;
+  margin-bottom: var(--bottom-gap);
 
   .sectionHeader {
     display: flex;

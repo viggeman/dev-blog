@@ -2,6 +2,8 @@
   --site-padding: 4rem;
   --site-padding-mob: 1.6rem;
   --dialog-padding: 2rem;
+  --bottom-gap: min(7.2rem, 16vh);
+  --section-gap: 0 var(--site-padding) var(--bottom-gap) var(--site-padding);
 
   --grid-column-gap: 4rem;
 

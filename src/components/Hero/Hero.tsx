@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Hero: FC<Props> = ({ blok }) => {
-  const { background_image, background_alt, headline } = blok;
+  const { background_image, headline } = blok;
   return (
     <div
       {...storyblokEditable(blok)}

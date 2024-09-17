@@ -3,16 +3,24 @@ import { FC } from 'react';
 import styles from './Button.module.scss';
 
 interface Props {
-  href: string;
-  text: string;
+  button: {
+    label: string;
+    href?: string;
+  };
 }
 
-const Button: FC<Props> = ({ href, text }) => {
+const Button: FC<Props> = ({ button }) => {
+  const { label, href } = button;
+
   return (
     <>
-      <Link href={href} className={styles.cta}>
-        {text}
-      </Link>
+      {href ? (
+        <Link href={href} className={styles.cta}>
+          {label}
+        </Link>
+      ) : (
+        <button className={styles.cta}>{label}</button>
+      )}
     </>
   );
 };
