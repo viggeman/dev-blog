@@ -31,7 +31,6 @@
 
   @include mobile {
     font-size: 2rem;
-    line-height: 1.4;
   }
 }
 
@@ -64,6 +63,10 @@
   a {
     text-decoration: underline;
   }
+}
+
+@mixin bg-gradient {
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
 }
 
 @mixin mobile() {

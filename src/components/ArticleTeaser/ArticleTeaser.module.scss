@@ -21,7 +21,7 @@
   .contentTeaser {
     flex: 1;
     padding: 2.4rem;
-    background-color: var(--primary-color);
+    background-color: var(--color-white);
     color: var(--color-black-rgb);
     padding-bottom: 4rem;
     .tagContainer {
@@ -32,7 +32,7 @@
         z-index: 3;
         text-transform: capitalize;
         padding: 0.8rem 1.2rem;
-        background-color: var(--color-white);
+        background-color: var(--primary-color);
         font-size: 1.2rem;
         line-height: 1.1;
         font-weight: 700;

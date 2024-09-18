@@ -10,7 +10,6 @@ interface Props {
 
 const Home: React.FC<Props> = ({ story }) => {
   story = useStoryblokState(story);
-  // console.log('data', story.content);
 
   return (
     <>
@@ -32,7 +31,7 @@ export async function getStaticProps() {
   // load the draft version
   let sbParams: any = {
     version: 'draft', // or 'published'
-    resolve_relations: 'article_slider.featured_articles',
+    resolve_relations: ['article_slider.featured_articles', 'contact_grid.contact_profile'],
   };
 
   const storyblokApi = getStoryblokApi();

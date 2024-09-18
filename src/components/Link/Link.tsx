@@ -1,26 +1,15 @@
-import { storyblokEditable } from '@storyblok/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
 interface Props {
-  blok: {
-    label: string;
-    link: {
-      cached_url: string;
-    };
-  };
+  href: string;
+  label: string;
 }
 
-const LinkComponent: FC<Props> = ({ blok }) => {
-  const { label, link } = blok;
-  const url = link.cached_url;
-  const path = url === 'home' ? '/' : `/${url}`;
+const LinkComponent: FC<Props> = ({ href, label }) => {
+  const path = href === 'home' ? '/' : `/${href}`;
 
-  return (
-    <div {...storyblokEditable(blok)}>
-      <Link href={path}>{label}</Link>
-    </div>
-  );
+  return <Link href={path}>{label}</Link>;
 };
 
 export default LinkComponent;

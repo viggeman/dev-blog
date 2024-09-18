@@ -8,7 +8,6 @@ interface Props {
 }
 
 const RichText: FC<Props> = ({ blok }) => {
-  console.log('rtblok', render(blok.text));
   return (
     <div {...storyblokEditable(blok)}>
       <div className={styles.richText}>{render(blok.text)}</div>

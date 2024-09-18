@@ -3,16 +3,28 @@ import { FC } from 'react';
 import styles from './Button.module.scss';
 
 interface Props {
-  href: string;
-  text: string;
+  label: string;
+  href?: string;
+  comLink?: string;
 }
 
-const Button: FC<Props> = ({ href, text }) => {
+const Button: FC<Props> = ({ label, href, comLink }) => {
+  console.log('href', href);
+  const isEmail = comLink?.includes('@');
+  // Redo this in link comp
   return (
     <>
-      <Link href={href} className={styles.cta}>
-        {text}
-      </Link>
+      {href ? (
+        <Link href={href} className={styles.cta}>
+          {label}
+        </Link>
+      ) : comLink ? (
+        <a className={styles.cta} href={`${isEmail === true ? 'mailto:' : 'tel:'}${comLink}`}>
+          {label}
+        </a>
+      ) : (
+        <button className={styles.cta}>{label}</button>
+      )}
     </>
   );
 };
