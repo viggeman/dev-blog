@@ -11,7 +11,6 @@ interface Props {
 const TwoColumn: FC<Props> = ({ blok }) => {
   const { image, button, subtitle, title, orderSwitch } = blok;
   const { label, link } = button[0];
-  const test = false;
 
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
@@ -21,11 +20,9 @@ const TwoColumn: FC<Props> = ({ blok }) => {
         </div>
       </div>
       <div className={styles.content}>
-        <div>
-          <h1>{title}</h1>
-          <p>{subtitle}</p>
-          <Button button={{ label: label, href: link.cached_url }} />
-        </div>
+        <h1>{title}</h1>
+        <p>{subtitle}</p>
+        <Button label={label} href={link.cached_url} />
       </div>
     </div>
   );

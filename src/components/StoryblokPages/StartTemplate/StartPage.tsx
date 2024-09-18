@@ -12,7 +12,9 @@ const StartPage: FC<Props> = ({ blok }) => {
     <div className={styles.container} {...storyblokEditable(blok)}>
       <BackgroundGradient />
       {blok.body.map((nestedBlok: any) => (
-        <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <section>
+          <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+        </section>
       ))}
     </div>
   );

@@ -2,14 +2,18 @@
 
 .container {
   display: grid;
-  border: 1px solid red;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   border-radius: 1rem;
   overflow: hidden;
   .image {
     position: relative;
-    grid-column: span 1;
+    grid-column: span 2;
     height: 100%;
+
+    @media (min-width: 1800px) {
+      height: 28rem;
+    }
+
     .imageWrapper {
       position: absolute;
       top: 0;
@@ -19,16 +23,36 @@
     }
   }
   .info {
-    grid-column: span 3;
-    padding: 3rem;
+    grid-column: span 4;
+    padding: 2.4rem;
+    background-color: var(--color-white);
+    @include mobile {
+      padding: 1.6rem;
+    }
     h3 {
-      @include sm-title;
+      @include sm_title;
+      margin-bottom: 0.5rem;
     }
     p {
       @include text;
+      font-size: 1.6rem;
+    }
+    a {
+      display: block;
+      @include text;
+      font-size: 1.6rem;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    a:first-child {
+      margin-bottom: 0.5rem;
     }
     > *:first-child {
-      margin-bottom: 2rem;
+      margin-bottom: 2.7rem;
+      @include mobile {
+        margin-bottom: 1.6rem;
+      }
     }
   }
 }

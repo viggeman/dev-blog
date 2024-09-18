@@ -1,42 +1,70 @@
 @import 'src/styles/mixins';
 
 .container {
+  margin-bottom: var(--bottom-gap);
+  .headerWrapper {
+    h2 {
+      @include text;
+      font-size: 1.6rem;
+      margin-left: 0.8rem;
+      margin-bottom: 2.4rem;
+    }
+  }
   .contactGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 3rem;
+    grid-column-gap: 4rem;
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
 
     .infoContainer {
       width: 100%;
       position: relative;
       grid-column: span 1;
+      height: 100%;
 
-      .image {
+      border-radius: 1rem;
+      overflow: hidden;
+      @include mobile {
+        height: 32rem;
+        margin-bottom: var(--site-padding-mob);
+      }
+
+      .imageWrapper {
         position: relative;
+        inset: 0;
         width: 100%;
-        .imageWrapper {
-          position: absolute;
-          width: 100%;
-          height: 0;
-          padding-bottom: 85%;
+        height: 100%;
+        @include mobile {
         }
       }
+
       .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         position: absolute;
-        padding: 2.4rem;
+        inset: 0;
+        padding: 4rem;
         h3 {
-          @include md-title;
+          @include md_title;
           letter-spacing: -0.01em;
+        }
+        @include mobile {
+          padding: 2.4rem;
         }
       }
     }
     .contactProfiles {
-      border: 1px solid red;
       display: flex;
       flex-direction: column;
       > * {
         &:not(:last-child) {
-          margin-bottom: 3.2rem;
+          margin-bottom: 4rem;
+          @include mobile {
+            margin-bottom: var(--site-padding-mob);
+          }
         }
       }
     }

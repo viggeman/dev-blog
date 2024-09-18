@@ -7,8 +7,8 @@ interface Props {
 }
 
 const ContactProfile: FC<Props> = ({ contactInfo }) => {
-  console.log('contactProfile', contactInfo);
   const { name, workingTitle, phone, email, image } = contactInfo.content;
+
   return (
     <div className={styles.container}>
       <div className={styles.image}>
@@ -22,8 +22,8 @@ const ContactProfile: FC<Props> = ({ contactInfo }) => {
           <p>{workingTitle}</p>
         </div>
         <div>
-          <p>{email}</p>
-          <p>{phone}</p>
+          <a href={`mailto:${email}`}>{email}</a>
+          <a href={`tel:${phone}`}>{phone}</a>
         </div>
       </div>
     </div>
