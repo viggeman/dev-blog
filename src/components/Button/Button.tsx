@@ -5,23 +5,19 @@ import styles from './Button.module.scss';
 interface Props {
   label: string;
   href?: string;
-  comLink?: string;
+  linktype?: string;
 }
 
-const Button: FC<Props> = ({ label, href, comLink }) => {
-  console.log('href', href);
-  const isEmail = comLink?.includes('@');
+const Button: FC<Props> = ({ label, href, linktype }) => {
+  // const isEmail = comLink?.includes('@');
   // Redo this in link comp
+  console.log('linktype', linktype);
   return (
     <>
       {href ? (
         <Link href={href} className={styles.cta}>
           {label}
         </Link>
-      ) : comLink ? (
-        <a className={styles.cta} href={`${isEmail === true ? 'mailto:' : 'tel:'}${comLink}`}>
-          {label}
-        </a>
       ) : (
         <button className={styles.cta}>{label}</button>
       )}

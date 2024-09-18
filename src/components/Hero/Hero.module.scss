@@ -39,14 +39,8 @@
       }
       h1 {
         // set fontsize as mixin, big large
-        font-size: 7.6rem;
-        color: white;
-        font-weight: 400;
-        line-height: 1;
-        letter-spacing: -0.02em;
-        @include mobile {
-          font-size: 4.8rem;
-        }
+        @include lg_title;
+        color: var(--color-white);
       }
     }
   }

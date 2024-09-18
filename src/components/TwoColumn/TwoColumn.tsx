@@ -14,7 +14,7 @@ const TwoColumn: FC<Props> = ({ blok }) => {
 
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
-      <div className={`${styles.image} ${orderSwitch === true ? styles.switched : ''}`}>
+      <div className={[styles.image, orderSwitch === true ? styles.switched : ''].join(' ')}>
         <div className={styles.imageWrapper}>
           <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
         </div>
