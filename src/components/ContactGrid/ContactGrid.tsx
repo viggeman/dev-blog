@@ -1,3 +1,4 @@
+import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
 import { FC } from 'react';
 import Button from '../Button/Button';
@@ -9,9 +10,10 @@ interface Props {
 }
 
 const ContactGrid: FC<Props> = ({ blok }) => {
-  const { contact_profile, image, image_title, module_title, contact_email, button_text } = blok;
+  const { contact_profile, image, image_title, module_title, link } = blok;
+  console.log('link', link[0].link);
   return (
-    <div className={styles.container}>
+    <div className={styles.container} {...storyblokEditable(blok)}>
       <div className={styles.headerWrapper}>
         <h2>{module_title}</h2>
       </div>
@@ -23,7 +25,14 @@ const ContactGrid: FC<Props> = ({ blok }) => {
           </div>
           <div className={styles.content}>
             <h3>{image_title}</h3>
-            <Button label={button_text} />
+            {link.map((item: any) => (
+              <Button
+                label={item.label}
+                linktype={item.link.linktype}
+                href={item.link.cached_url}
+                style="button"
+              />
+            ))}
           </div>
         </div>
         <div className={styles.contactProfiles}>
