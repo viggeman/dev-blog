@@ -30,6 +30,7 @@ const ContactGrid: FC<Props> = ({ blok }) => {
                 label={item.label}
                 linktype={item.link.linktype}
                 href={item.link.cached_url}
+                style="button"
               />
             ))}
           </div>

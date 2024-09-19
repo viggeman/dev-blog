@@ -1,23 +1,20 @@
-import Link from 'next/link';
 import { FC } from 'react';
+import LinkComponent from '../Link/Link';
 import styles from './Button.module.scss';
 
 interface Props {
   label: string;
   href?: string;
   linktype?: string;
+  style: string;
 }
 
-const Button: FC<Props> = ({ label, href, linktype }) => {
-  // const isEmail = comLink?.includes('@');
-  // Redo this in link comp
+const Button: FC<Props> = ({ label, href, linktype, style }) => {
   console.log('linktype', linktype);
   return (
     <>
       {href ? (
-        <Link href={href} className={styles.cta}>
-          {label}
-        </Link>
+        <LinkComponent label={label} href={href} linktype={linktype} style={style} />
       ) : (
         <button className={styles.cta}>{label}</button>
       )}
