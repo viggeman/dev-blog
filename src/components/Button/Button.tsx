@@ -6,17 +6,18 @@ interface Props {
   label: string;
   href?: string;
   linktype?: string;
-  style: string;
+  className?: string;
 }
 
-const Button: FC<Props> = ({ label, href, linktype, style }) => {
+const Button: FC<Props> = ({ label, href, linktype, className }) => {
   console.log('linktype', linktype);
+  const classNames = [styles.cta, className ? className : ''].join(' ');
   return (
     <>
       {href ? (
-        <LinkComponent label={label} href={href} linktype={linktype} style={style} />
+        <LinkComponent label={label} href={href} linktype={linktype} className={classNames} />
       ) : (
-        <button className={styles.cta}>{label}</button>
+        <button className={classNames}>{label}</button>
       )}
     </>
   );

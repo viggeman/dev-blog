@@ -1,0 +1,5 @@
+/*
+Get global data from settings in SB
+
+
+*/
