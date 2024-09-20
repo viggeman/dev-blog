@@ -10,7 +10,6 @@ interface Props {
 }
 
 const Button: FC<Props> = ({ label, href, linktype, className }) => {
-  console.log('linktype', linktype);
   const classNames = [styles.cta, className ? className : ''].join(' ');
   return (
     <>

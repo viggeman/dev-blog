@@ -12,8 +12,6 @@ interface Props {
 const TwoColumn: FC<Props> = ({ blok }) => {
   const { image, button, subtitle, title, orderSwitch } = blok;
 
-  console.log('button', button);
-
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
       <div className={[styles.image, orderSwitch === true ? styles.switched : ''].join(' ')}>

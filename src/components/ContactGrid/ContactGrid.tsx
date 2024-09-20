@@ -11,7 +11,6 @@ interface Props {
 
 const ContactGrid: FC<Props> = ({ blok }) => {
   const { contact_profile, image, image_title, module_title, link } = blok;
-  console.log('link', link[0].link);
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
       <div className={styles.headerWrapper}>
@@ -30,7 +29,7 @@ const ContactGrid: FC<Props> = ({ blok }) => {
                 label={item.label}
                 linktype={item.link.linktype}
                 href={item.link.cached_url}
-                style="button"
+                className="button"
               />
             ))}
           </div>

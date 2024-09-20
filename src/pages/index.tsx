@@ -1,3 +1,4 @@
+import getGlobalData from '@/utils/getGlobalData';
 import { getStoryblokApi, StoryblokComponent, useStoryblokState } from '@storyblok/react';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
@@ -35,15 +36,23 @@ export async function getStaticProps() {
   };
 
   const storyblokApi = getStoryblokApi();
-  let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
-
-  return {
-    props: {
-      story: data ? data.story : false,
-      key: data ? data.story.id : false,
-    },
-    revalidate: 3600, // revalidate every hour
-  };
+  try {
+    let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+    const globalData = await getGlobalData();
+    return {
+      props: {
+        story: data ? data.story : false,
+        key: data ? data.story.id : false,
+        globalData: globalData,
+      },
+      revalidate: 3600, // revalidate every hour
+    };
+  } catch (error: any) {
+    console.error(error.message);
+    return {
+      notFound: true, // sends to 404
+    };
+  }
 }
 
 export default Home;

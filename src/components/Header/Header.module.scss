@@ -1,9 +1,13 @@
 .container {
-  color: white;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: var(--header-z-index);
 }
 
 .navbar {
-  background-color: var(--color-black);
+  background-color: var(--color-white);
+  border: 1px solid red;
   padding: var(--dialog-padding) var(--site-padding);
   display: flex;
   justify-content: space-between;
