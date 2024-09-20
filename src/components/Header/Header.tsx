@@ -1,3 +1,4 @@
+import { storyblokEditable } from '@storyblok/react';
 import { FC } from 'react';
 import LinkComponent from '../Link/Link';
 import UspBar from '../UspBar/UspBar';
@@ -10,7 +11,7 @@ interface Props {
 const Header: FC<Props> = ({ blok }) => {
   const { nav, usp_bar } = blok;
   return (
-    <header className={styles.container}>
+    <header className={styles.container} {...storyblokEditable(blok)}>
       <UspBar blok={usp_bar} />
       <nav className={styles.navbar}>
         <ul>

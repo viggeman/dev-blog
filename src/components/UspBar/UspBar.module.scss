@@ -1,10 +1,18 @@
 .container {
   position: sticky;
-  border: 1px solid red;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
   height: 3rem;
+  .closeButton {
+    position: absolute;
+    right: var(--site-padding-mob);
+    line-height: 1;
+    cursor: pointer;
+  }
+  &.hidden {
+    display: none;
+  }
 }
