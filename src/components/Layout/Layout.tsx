@@ -9,10 +9,6 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, globalData }) => {
-  console.log('globaldata', globalData);
-  const { nav, usp_bar } = globalData.content;
-  console.log('header', nav, usp_bar);
-
   return (
     <>
       <Header blok={globalData.content} />

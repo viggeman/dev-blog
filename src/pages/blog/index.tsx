@@ -33,7 +33,6 @@ export async function getStaticProps() {
 
     // get global data via getGlobalData.ts
     let globalData = await getGlobalData();
-    console.log('globaldata', globalData);
 
     return {
       props: {

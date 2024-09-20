@@ -27,7 +27,7 @@ const TwoColumn: FC<Props> = ({ blok }) => {
             label={item.label}
             href={item.link.cached_url}
             linktype={item.link.linktype}
-            style="button"
+            className="button"
           />
         ))}
       </div>

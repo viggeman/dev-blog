@@ -38,7 +38,6 @@ storyblokInit({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  console.log('pageProps', pageProps);
   // if we have a global data object we can pass it to the layout
   const globalData = pageProps.globalData ? pageProps.globalData : null;
   return (
