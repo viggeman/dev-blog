@@ -1,3 +1,4 @@
+import getGlobalData from '@/utils/getGlobalData';
 import {
   getStoryblokApi,
   ISbStoriesParams,
@@ -27,10 +28,12 @@ export async function getStaticProps({ params }: any) {
 
   try {
     let { data } = await storyblokApi.get(`cdn/stories/blog/${slug}`, sbParams);
+    const globalData = await getGlobalData();
 
     return {
       props: {
         story: data.story,
+        globalData: globalData,
       },
       revalidate: 3600,
     };

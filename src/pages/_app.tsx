@@ -23,11 +23,13 @@ const components = {
   article_slider: ArticleSlider,
   hero: Hero,
   articleteaser: ArticleTeaser,
+
   component_blog_image: ImageComponent,
   component_link: LinkComponent,
   component_rich_text: RichText,
   two_column: TwoColumn,
   contact_grid: ContactGrid,
+
   header: Header,
 };
 
@@ -38,7 +40,6 @@ storyblokInit({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  // if we have a global data object we can pass it to the layout
   const globalData = pageProps.globalData ? pageProps.globalData : null;
   return (
     <Layout globalData={globalData}>
