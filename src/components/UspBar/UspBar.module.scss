@@ -1,0 +1,10 @@
+.container {
+  position: sticky;
+  border: 1px solid red;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  height: 3rem;
+}
