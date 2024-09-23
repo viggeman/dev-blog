@@ -9,6 +9,7 @@ import BlogListingPage from '@/components/StoryblokPages/BlogListingTemplate/Blo
 import BlogTemplate from '@/components/StoryblokPages/BlogTemplate/BlogTemplate';
 import StartPage from '@/components/StoryblokPages/StartTemplate/StartPage';
 import TwoColumn from '@/components/TwoColumn/TwoColumn';
+import Footer from './Footer/Footer';
 
 export const components = {
   // Pages
@@ -29,4 +30,5 @@ export const components = {
 
   // Global
   header: Header,
+  footer: Footer,
 };
