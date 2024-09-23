@@ -4,52 +4,27 @@ Get data from static props from header
 Render header comp
 
 */
+import Header from '@/components/Header/Header';
 import getGlobalData from '@/utils/getGlobalData';
-import { StoryblokComponent, useStoryblokState } from '@storyblok/react';
+import { useStoryblokState } from '@storyblok/react';
 import { FC } from 'react';
 
 interface Props {
-  globalData: any;
+  story: any;
 }
 
-const Header: FC<Props> = ({ globalData }) => {
-  globalData = useStoryblokState(globalData);
-  return (
-    <div>
-      <StoryblokComponent blok={globalData.content} />
-    </div>
-  );
+const Index: FC<Props> = ({ story }) => {
+  story = useStoryblokState(story);
+  return <Header blok={story.content} />;
 };
 
 export async function getStaticProps() {
-  // const storyblokApi = getStoryblokApi();
-
-  // let sbParams: ISbStoriesParams = {
-  //   version: 'draft',
-  //   resolve_links: 'url',
-  // };
-
-  // try {
-  //   let { data: headerData } = await storyblokApi.get(`cdn/stories/settings/header`, sbParams);
-
-  //   return {
-  //     props: {
-  //       headerData: headerData.story,
-  //     },
-  //     revalidate: 3600,
-  //   };
-  // } catch (error: any) {
-  //   console.error(error.message);
-  //   return {
-  //     notFound: true, // sends to 404
-  //   };
-  // }
   try {
     const globalData = await getGlobalData();
 
     return {
       props: {
-        globalData: globalData,
+        story: globalData.header,
       },
       revalidate: 3600,
     };
@@ -61,4 +36,4 @@ export async function getStaticProps() {
   }
 }
 
-export default Header;
+export default Index;

@@ -16,9 +16,12 @@ export async function getGlobalData() {
   };
 
   try {
+    let globalData: any = {};
     let { data: headerData } = await storyblokApi.get(`cdn/stories/settings/header`, sbParams);
 
-    return headerData.story;
+    globalData.header = headerData.story;
+
+    return globalData;
   } catch (error: any) {
     console.error(error.message);
     return {
