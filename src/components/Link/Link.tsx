@@ -9,10 +9,15 @@ interface Props {
 }
 
 const LinkComponent: FC<Props> = ({ href, label, linktype, className }) => {
-  let path = href === 'home' ? '/' : `/${href}`;
+  let path: any;
   const isExternal = linktype === 'url';
   const isEmail = linktype === 'email';
-  path = isEmail ? `mailto:${path}` : path;
+
+  if (isEmail) {
+    path = `mailto:${href}`;
+  } else {
+    path = href === 'home' ? '/' : `/${href}`;
+  }
 
   return (
     <Link
