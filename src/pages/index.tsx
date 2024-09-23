@@ -26,12 +26,10 @@ const Home: React.FC<Props> = ({ story }) => {
 };
 
 export async function getStaticProps() {
-  // home is the default slug for the homepage in Storyblok
   let slug = 'home';
 
-  // load the draft version
   let sbParams: any = {
-    version: 'draft', // or 'published'
+    version: 'draft',
     resolve_relations: ['article_slider.featured_articles', 'contact_grid.contact_profile'],
   };
 
