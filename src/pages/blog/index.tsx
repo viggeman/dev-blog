@@ -31,7 +31,6 @@ export async function getStaticProps() {
     let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
     let { data: pageData } = await storyblokApi.get(`cdn/stories/blog`, pageParams);
 
-    // get global data via getGlobalData.ts
     let globalData = await getGlobalData();
 
     return {
