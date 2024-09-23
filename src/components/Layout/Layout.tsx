@@ -9,9 +9,10 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, globalData }) => {
+  const { header } = globalData || {};
   return (
     <>
-      <Header blok={globalData.content} />
+      {header && <Header blok={header.content} />}
       <main className={styles.container}>{children}</main>
     </>
   );
