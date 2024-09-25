@@ -4,9 +4,8 @@ Get data from static props from header
 Render header comp
 
 */
-import Header from '@/components/Header/Header';
 import getGlobalData from '@/utils/getGlobalData';
-import { useStoryblokState } from '@storyblok/react';
+import { StoryblokComponent, useStoryblokState } from '@storyblok/react';
 import { FC } from 'react';
 
 interface Props {
@@ -15,16 +14,32 @@ interface Props {
 
 const Index: FC<Props> = ({ story }) => {
   story = useStoryblokState(story);
-  return <Header blok={story.content} />;
+  return <StoryblokComponent blok={story.content} />;
 };
 
-export async function getStaticProps() {
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export async function getStaticProps({ params }: any) {
+  const { slug } = params;
+
   try {
     const globalData = await getGlobalData();
+    const story = globalData[slug];
+
+    if (!story) {
+      return {
+        notFound: true,
+      };
+    }
 
     return {
       props: {
-        story: globalData.header,
+        story: story,
       },
       revalidate: 3600,
     };

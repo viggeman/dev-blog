@@ -17,10 +17,20 @@ export async function getGlobalData() {
 
   try {
     let globalData: any = {};
-    let { data: headerData } = await storyblokApi.get(`cdn/stories/settings/header`, sbParams);
 
-    globalData.header = headerData.story;
+    const { data } = await storyblokApi.get(`cdn/stories`, {
+      ...sbParams,
+      starts_with: 'settings',
+    });
 
+    if (data.stories) {
+      globalData.footer = data.stories.find((story: any) => {
+        return story.name === 'footer';
+      });
+      globalData.header = data.stories.find((story: any) => {
+        return story.name === 'header';
+      });
+    }
     return globalData;
   } catch (error: any) {
     console.error(error.message);
