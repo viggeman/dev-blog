@@ -1,0 +1,22 @@
+@import 'src/styles/mixins.scss';
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: var(--site-padding);
+  padding: 13.8rem var(--site-padding);
+  @include mobile {
+    grid-template-columns: 1fr;
+    row-gap: 5.8rem;
+    padding: 5.8rem var(--site-padding-mob);
+  }
+
+  h2 {
+    @include md_title;
+    font-size: 3.2rem;
+    margin-bottom: 5.8rem;
+    @include mobile {
+      @include sm_title;
+      margin-bottom: 1.6rem;
+    }
+  }
+}
