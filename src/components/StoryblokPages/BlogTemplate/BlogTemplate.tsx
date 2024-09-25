@@ -1,6 +1,6 @@
 import { StoryblokComponent, storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
-import { FC, MouseEvent } from 'react';
+import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
 import styles from './BlogTemplate.module.scss';
 
 interface Props {
@@ -20,22 +20,66 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
 
   const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, anchor: string) => {
     event.preventDefault();
-    console.log('anchor', anchor, event);
     const targetElement = document.getElementById(anchor);
-    console.log('targetel', targetElement);
     if (targetElement) {
       const offset = 140;
       const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - offset;
-      console.log('elementpos', targetElement.getBoundingClientRect().top);
-      console.log('offsetpos', offsetPosition);
-
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth',
       });
     }
   };
+
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const [activeAnchor, setActiveAnchor] = useState<string | null>(null);
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      // rootMargin works for some reason with full negative values
+      rootMargin: '-12% 0px -88% 0px',
+      threshold: 0,
+    };
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry);
+
+        if (entry.isIntersecting) {
+          console.log(`Anchor link content: ${entry.target.id}`);
+          setActiveAnchor(entry.target.id);
+        }
+      });
+    }, options);
+
+    const elements = anchorLinks.map((link: any) => document.getElementById(link.link.anchor));
+    elements.forEach((element: any) => {
+      if (element) {
+        observerRef.current?.observe(element);
+      }
+    });
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const checkScroll = (e: any) => {
+      const scrollY = window.scrollY;
+      if (scrollY < 640) {
+        setActiveAnchor(null);
+      }
+    };
+
+    window.addEventListener('scroll', checkScroll);
+
+    return () => {
+      window.removeEventListener('scroll', checkScroll);
+    };
+  }, []);
 
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
@@ -49,8 +93,9 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
           <div className={styles.anchorLinks}>
             {anchorLinks.map((link: any) => (
               <ul>
-                <li>
+                <li key={link._uid}>
                   <a
+                    className={`${styles.blogNavLink} ${activeAnchor === link.link.anchor ? styles.active : ''}`}
                     href={`#${link.link.anchor}`}
                     onClick={(e) => handleAnchorClick(e, link.link.anchor)}
                   >
@@ -68,7 +113,7 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
             <span>{formatDate}</span>
           </p>
         </div>
-        <div className={styles.content}>
+        <div className={styles.content} id="content">
           <h2 className={styles.subtitle}>{subtitle}</h2>
           <div className={styles.body}>
             {body.map((nestedBlok: any) => (

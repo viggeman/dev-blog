@@ -22,7 +22,11 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
       />
       <div className={styles.grid}>
         {articles.map((article: any) => (
-          <ArticleTeaser key={article.uuid} article={article} />
+          <div
+          // some order
+          >
+            <ArticleTeaser key={article.uuid} article={article} />
+          </div>
         ))}
       </div>
     </div>

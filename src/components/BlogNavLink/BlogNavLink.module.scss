@@ -1,0 +1,5 @@
+@import 'src/styles/mixins.scss';
+
+.anchorTitle {
+  @include sm_title;
+}
