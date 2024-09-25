@@ -9,6 +9,7 @@ import BlogListingPage from '@/components/StoryblokPages/BlogListingTemplate/Blo
 import BlogTemplate from '@/components/StoryblokPages/BlogTemplate/BlogTemplate';
 import StartPage from '@/components/StoryblokPages/StartTemplate/StartPage';
 import TwoColumn from '@/components/TwoColumn/TwoColumn';
+import BlogNavLink from './BlogNavLink/BlogNavLink';
 import Footer from './Footer/Footer';
 
 export const components = {
@@ -27,6 +28,7 @@ export const components = {
   component_blog_image: ImageComponent,
   component_link: LinkComponent,
   component_rich_text: RichText,
+  component_blog_nav_link: BlogNavLink,
 
   // Global
   header: Header,
