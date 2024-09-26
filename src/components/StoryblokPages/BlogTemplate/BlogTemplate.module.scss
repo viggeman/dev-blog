@@ -49,6 +49,18 @@
         @include md_title;
         margin-bottom: 2.8rem;
       }
+      .anchorLinks {
+        margin-bottom: 2.8rem;
+        .blogNavLink {
+          @include text;
+          &.active {
+            font-weight: 700;
+          }
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
       .date,
       .author {
         font-size: 1.2rem;

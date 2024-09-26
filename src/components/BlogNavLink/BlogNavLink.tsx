@@ -9,7 +9,7 @@ const BlogNavLink: FC<Props> = ({ blok }) => {
   const { title, link } = blok;
 
   return (
-    <h2 id={link.anchor} className={styles.container}>
+    <h2 id={link.anchor} className={styles.anchorTitle}>
       {title}
     </h2>
   );
