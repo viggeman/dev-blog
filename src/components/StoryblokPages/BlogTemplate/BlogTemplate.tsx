@@ -1,3 +1,4 @@
+import BackgroundGradient from '@/components/BackgroundGradient/BackgroundGradient';
 import { StoryblokComponent, storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
 import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
@@ -39,16 +40,13 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
     const options = {
       root: null,
       // rootMargin works for some reason with full negative values
-      rootMargin: '-12% 0px -88% 0px',
+      rootMargin: '-15% 0px -85% 0px',
       threshold: 0,
     };
 
     observerRef.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
-
         if (entry.isIntersecting) {
-          console.log(`Anchor link content: ${entry.target.id}`);
           setActiveAnchor(entry.target.id);
         }
       });
@@ -69,7 +67,7 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
   useEffect(() => {
     const checkScroll = (e: any) => {
       const scrollY = window.scrollY;
-      if (scrollY < 640) {
+      if (scrollY < 550) {
         setActiveAnchor(null);
       }
     };
@@ -83,6 +81,7 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
 
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
+      <BackgroundGradient />
       <h1 className={[styles.title, styles.hideDesktop].join(' ')}>{title}</h1>
       <div className={styles.featuredImage}>
         <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
@@ -95,7 +94,10 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
               <ul>
                 <li key={link._uid}>
                   <a
-                    className={`${styles.blogNavLink} ${activeAnchor === link.link.anchor ? styles.active : ''}`}
+                    className={[
+                      styles.blogNavLink,
+                      activeAnchor === link.link.anchor ? styles.active : '',
+                    ].join(' ')}
                     href={`#${link.link.anchor}`}
                     onClick={(e) => handleAnchorClick(e, link.link.anchor)}
                   >
