@@ -27,12 +27,11 @@
   .contentGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: var(--site-padding);
     position: relative;
     padding-top: var(--site-padding);
     @include mobile {
       grid-template-columns: 1fr;
-      padding-top: var(--site-padding-mob);
     }
 
     .intro {
@@ -41,6 +40,7 @@
       top: 13rem;
       // top: calc(var(--site-padding) + var(--header-height));
       height: calc(100vh - 4rem);
+
       @include mobile {
         position: static;
         height: auto;
@@ -59,6 +59,12 @@
           &:hover {
             text-decoration: underline;
           }
+        }
+        @include mobile {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.6rem;
+          // flex-direction: column;
         }
       }
       .date,
