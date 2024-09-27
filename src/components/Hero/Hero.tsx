@@ -19,6 +19,7 @@ const Hero: FC<Props> = ({ blok }) => {
           <h1>{headline}</h1>
         </div>
       </div>
+
       <div className={styles.imageWrapper}>
         <Image
           src={background_image.filename}
