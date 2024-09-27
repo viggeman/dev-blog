@@ -17,8 +17,6 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
 
   const anchorLinks = body.filter((blok: any) => blok.component === 'component_blog_nav_link');
 
-  // INTERSECTION OBSERVER!!!!!!!!!!!!!!!##############################################
-
   const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>, anchor: string) => {
     event.preventDefault();
     const targetElement = document.getElementById(anchor);

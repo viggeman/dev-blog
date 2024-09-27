@@ -1,5 +1,6 @@
 import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import FeaturedHighlight from '@/components/FeaturedHighlight/FeaturedHighlight';
+import FilterList from '@/components/FilterList/FilterList';
 import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
 import { FC } from 'react';
@@ -11,14 +12,43 @@ interface Props {
 }
 
 const BlogListingPage: FC<Props> = ({ blok, articles }) => {
-  console.log('blok', blok);
   const { image, title, highlight } = blok;
+  console.log('articles', articles);
 
-  console.log('highlight', highlight);
-  console.log('article', articles);
+  /*
+  #### This is the old way of getting the unique filters ####
+  const articleWithFilters = articles.filter((article: any) => article.content.category);
+
+  const availableFilters = articleWithFilters.map((article: any) => article.content.category);
+
+  const uniqueFilters: string[] = [];
+
+  availableFilters.forEach((filter: any) => {
+    filter.forEach((subFilter: any) => {
+      if (!uniqueFilters.includes(subFilter)) {
+        uniqueFilters.push(subFilter);
+      }
+    });
+  }); */
+
+  // This is the AI way of getting the unique filters
+  const articleWithFilters = articles.filter((article: any) => article.content.category);
+
+  const availableFilters = articleWithFilters.flatMap((article: any) => article.content.category);
+
+  const uniqueFilters: string[] = Array.from(new Set(availableFilters));
+
+  console.log('articleWithFilters', articleWithFilters);
+  console.log('availableFilters', availableFilters);
+  console.log('uniqueFilters', uniqueFilters);
 
   // 2 new states, for the gridItems and the filteredArticles
   // const [gridItems, setGridItems] = useState<any[]>([]);
+  // grid items state should update when filkters is chosen
+
+  const onFilterChange = (filters: string) => {
+    setFilters(filters);
+  };
 
   const gridItems = [
     ...highlight.map((highlightItem: any) => ({
@@ -46,6 +76,7 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
         </div>
       </div>
       <h2>Follow up on the latest articles and more</h2>
+      <FilterList filterOptions={uniqueFilters} onFilterChange={handleFilterChange} />
       <div className={styles.grid}>
         {gridItems &&
           gridItems.map((item, index) => {
