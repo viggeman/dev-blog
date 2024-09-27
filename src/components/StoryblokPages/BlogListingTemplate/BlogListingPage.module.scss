@@ -1,13 +1,69 @@
+@import 'src/styles/mixins.scss';
+
+.heroContainer {
+  position: relative;
+  margin: 0 calc(-1 * var(--site-padding));
+  margin-bottom: var(--site-padding);
+  @include mobile {
+    margin: 0 calc(-1 * var(--site-padding-mob));
+    margin-bottom: var(--site-padding-mob);
+  }
+
+  &.constrained {
+    width: 100%;
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .textContainer {
+    letter-spacing: -0.02em;
+    max-width: 120ch;
+    text-align: right;
+    position: absolute;
+    z-index: 1;
+    right: var(--site-padding);
+    top: calc(50%);
+    transform: translateY(-50%);
+    @include mobile {
+      text-indent: 0;
+      left: 0;
+      right: 0;
+      margin-left: var(--site-padding-mob);
+    }
+
+    .textWrapper {
+      @include mobile {
+        max-width: 80vw;
+      }
+      h1 {
+        @include lg_title;
+        color: var(--color-black);
+      }
+    }
+  }
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 45%;
+    @include mobile {
+      padding-bottom: var(--image-ratio-square);
+    }
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  .gridItem {
+    height: 100%;
   }
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+  @include mobile {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
