@@ -1,30 +1,51 @@
 import { FC, useEffect, useState } from 'react';
 import Button from '../Button/Button';
-import FilterOptions from '../ListFilter/FilterOptions';
 import styles from './FilterList.module.scss';
 
 interface Props {
   filterOptions: string[];
-  onFilterChange: (filter: string) => void;
+  onFilterChange: (selectedFilter: string[]) => void;
 }
 
 const FilterList: FC<Props> = ({ filterOptions, onFilterChange }) => {
   const [openFilter, setOpenFilter] = useState(false);
-  // Pass selected filters to parent using some kind of magic function
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const handleFilter = () => {
     setOpenFilter(!openFilter);
   };
 
+  const handleFilterChange = (filter: string) => {
+    if (activeFilters.includes(filter)) {
+      setActiveFilters(activeFilters.filter((f) => f !== filter));
+    } else {
+      setActiveFilters([...activeFilters, filter]);
+    }
+  };
+  console.log('activeFilters', activeFilters);
   useEffect(() => {
     onFilterChange(activeFilters);
   }, [activeFilters]);
 
   return (
-    // Remove filterOptions comp, add functionality here
     <div className={styles.container}>
       <span>Filter by: </span>
       <Button onClick={handleFilter} label="Choose Tag" />
-      {openFilter && <FilterOptions filterOptions={filterOptions} />}
+      {openFilter && (
+        <div>
+          <ul>
+            {filterOptions.map((option: string) => (
+              <li key={option}>
+                <button
+                  onClick={() => handleFilterChange(option)}
+                  style={{ background: activeFilters.includes(option) ? 'red' : 'transparent' }}
+                >
+                  {option}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
