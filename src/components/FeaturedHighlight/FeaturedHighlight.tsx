@@ -7,7 +7,6 @@ interface Props {
 }
 
 const FeaturedHighlight: FC<Props> = ({ highlight }) => {
-  console.log('highlight', highlight);
   const { title, image, link } = highlight;
   return (
     <div className={styles.container}>

@@ -7,16 +7,19 @@ interface Props {
   href?: string;
   linktype?: string;
   className?: string;
+  onClick?: () => void;
 }
 
-const Button: FC<Props> = ({ label, href, linktype, className }) => {
+const Button: FC<Props> = ({ label, href, linktype, className, onClick }) => {
   const classNames = [styles.cta, className ? className : ''].join(' ');
   return (
     <>
       {href ? (
         <LinkComponent label={label} href={href} linktype={linktype} className={classNames} />
       ) : (
-        <button className={classNames}>{label}</button>
+        <button onClick={onClick} className={classNames}>
+          {label}
+        </button>
       )}
     </>
   );

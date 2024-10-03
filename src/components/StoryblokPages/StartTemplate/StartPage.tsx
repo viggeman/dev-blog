@@ -10,7 +10,7 @@ interface Props {
 const StartPage: FC<Props> = ({ blok }) => {
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
-      <BackgroundGradient />
+      <BackgroundGradient background="gradient" />
       {blok.body.map((nestedBlok: any) => (
         <section>
           <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />

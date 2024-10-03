@@ -1,0 +1,97 @@
+@import 'src/styles/mixins.scss';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  width: 100%;
+  margin-bottom: 2.4rem;
+  position: relative;
+
+  .titleWrap {
+    display: flex;
+    align-items: flex-end;
+    width: auto;
+    position: relative;
+
+    .listTitle {
+      @include md_title;
+      max-width: 20ch;
+      margin-bottom: 0;
+    }
+  }
+
+  .filterWrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    .filterByText {
+      @include text;
+      margin-right: 2rem;
+    }
+
+    .filterButton {
+      text-transform: capitalize;
+      border-radius: 10rem;
+      padding: 1rem 2rem;
+      background: var(--color-white);
+      color: var(--color-black);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--color-black-hover);
+        color: var(--color-white);
+      }
+
+      &.active {
+        background-color: var(--color-black);
+        color: var(--color-white);
+      }
+    }
+  }
+
+  .listFilter {
+    background-color: var(--color-white);
+    border-radius: 1rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: auto;
+    margin-top: 1.2rem;
+    max-height: 30rem;
+    overflow-y: auto;
+    z-index: 99;
+    scrollbar-width: none;
+
+    .innerContainer {
+      position: relative;
+      display: flex;
+      padding: 1rem;
+      align-items: flex-start;
+      flex-direction: column;
+      overflow-y: auto;
+      min-width: 20rem;
+    }
+
+    .filterListButton {
+      text-transform: capitalize;
+      border-radius: 10rem;
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      background: var(--primary-color);
+      cursor: pointer;
+
+      &.active {
+        background-color: var(--color-black);
+        color: var(--color-white);
+      }
+
+      &:hover {
+        background-color: var(--color-black-hover);
+        color: var(--color-white);
+      }
+    }
+  }
+}
