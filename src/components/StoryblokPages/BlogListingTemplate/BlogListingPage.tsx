@@ -1,4 +1,5 @@
 import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
+import BackgroundGradient from '@/components/BackgroundGradient/BackgroundGradient';
 import FeaturedHighlight from '@/components/FeaturedHighlight/FeaturedHighlight';
 import FilterList from '@/components/FilterList/FilterList';
 import { storyblokEditable } from '@storyblok/react';
@@ -13,7 +14,7 @@ interface Props {
 
 const BlogListingPage: FC<Props> = ({ blok, articles }) => {
   const { image, title, highlight } = blok;
-  const [selectedFilter, setSelectedFilter] = useState<string[] | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<any[]>([]);
 
   const articleWithFilters = articles.filter((article: any) => article.content.category);
@@ -30,7 +31,7 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
   console.log('filtered articles', filteredArticles);
 
   useEffect(() => {
-    if (!selectedFilter) {
+    if (selectedFilter.length === 0) {
       console.log('no filter', true);
       return;
     }
@@ -57,6 +58,7 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
 
   return (
     <div {...storyblokEditable(blok)}>
+      <BackgroundGradient background="grey" />
       <div className={styles.heroContainer}>
         <div className={styles.textContainer}>
           <div className={styles.textWrapper}>
@@ -67,12 +69,11 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
           <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
         </div>
       </div>
-      <h2>Follow up on the latest articles and more</h2>
 
       <FilterList filterOptions={uniqueFilters} onFilterChange={handleFilterChange} />
       <div className={styles.grid}>
         {gridItems &&
-          (selectedFilter && filteredArticles.length > 0
+          (selectedFilter.length > 0
             ? filteredArticles.map((article, index) => (
                 <div className={styles.gridItem} key={`article-${index}`}>
                   <ArticleTeaser article={article} />

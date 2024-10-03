@@ -79,7 +79,7 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
 
   return (
     <div className={styles.container} {...storyblokEditable(blok)}>
-      <BackgroundGradient />
+      <BackgroundGradient background="grey" />
       <h1 className={[styles.title, styles.hideDesktop].join(' ')}>{title}</h1>
       <div className={styles.featuredImage}>
         <Image src={image.filename} alt={image.alt} layout="fill" objectFit="cover" />
