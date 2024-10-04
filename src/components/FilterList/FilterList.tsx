@@ -4,9 +4,10 @@ import styles from './FilterList.module.scss';
 interface Props {
   filterOptions: string[];
   onFilterChange: (selectedFilter: string[]) => void;
+  onSortChange: (sort: string) => void;
 }
 
-const FilterList: FC<Props> = ({ filterOptions, onFilterChange }) => {
+const FilterList: FC<Props> = ({ filterOptions, onFilterChange, onSortChange }) => {
   const [openFilter, setOpenFilter] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -21,7 +22,6 @@ const FilterList: FC<Props> = ({ filterOptions, onFilterChange }) => {
       setActiveFilters([...activeFilters, filter]);
     }
   };
-  console.log('activeFilters', activeFilters);
   useEffect(() => {
     onFilterChange(activeFilters);
   }, [activeFilters]);
@@ -41,6 +41,20 @@ const FilterList: FC<Props> = ({ filterOptions, onFilterChange }) => {
             ? `${activeFilters[0]}${activeFilters.length > 1 ? ` (+${activeFilters.length - 1})` : ''}`
             : 'Choose Tag +'}
         </button>
+
+        {activeFilters.length > 0 && (
+          <button className={styles.resetButton} onClick={() => setActiveFilters([])}>
+            Clear
+          </button>
+        )}
+        <div className={styles.sortWrap}>
+          <span className={styles.filterByText}>Sort by: </span>
+          <select className={styles.sortSelect} onChange={(e) => onSortChange(e.target.value)}>
+            <option value="">Select an option</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </div>
       </div>
       {/* Handle with hide class */}
       {openFilter && (

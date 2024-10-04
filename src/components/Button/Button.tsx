@@ -13,7 +13,7 @@ interface Props {
 const Button: FC<Props> = ({ label, href, linktype, className, onClick }) => {
   const classNames = [styles.cta, className ? className : ''].join(' ');
   return (
-    <>
+    <div>
       {href ? (
         <LinkComponent label={label} href={href} linktype={linktype} className={classNames} />
       ) : (
@@ -21,7 +21,7 @@ const Button: FC<Props> = ({ label, href, linktype, className, onClick }) => {
           {label}
         </button>
       )}
-    </>
+    </div>
   );
 };
 
