@@ -16,6 +16,7 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
   const { image, title, highlight } = blok;
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<any[]>([]);
+  const [sortOrder, setSortOrder] = useState<string>('');
 
   const articleWithFilters = articles.filter((article: any) => article.content.category);
 
@@ -23,16 +24,44 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
 
   const uniqueFilters: string[] = Array.from(new Set(availableFilters));
 
+  const newDateTest = Date.now();
+  console.log('newdate', newDateTest);
+
   const handleFilterChange = (filters: string[]) => {
     setSelectedFilter(filters);
   };
 
-  console.log('selectedFilters', selectedFilter);
-  console.log('filtered articles', filteredArticles);
+  const handleSortChange = (sort: string) => {
+    setSortOrder(sort);
+  };
+  console.log('sortOrder', sortOrder);
+
+  // TODO - Fix sorting filter bug
+  useEffect(() => {
+    if (sortOrder === '') {
+      return;
+    }
+    if (sortOrder === 'newest') {
+      console.log('is newest');
+      const sortedArticles = [...articles].sort((a, b) => {
+        return new Date(b.content.date).getTime() - new Date(a.content.date).getTime();
+      });
+      console.log('new sort', sortedArticles);
+      setFilteredArticles(sortedArticles);
+    } else if (sortOrder === 'oldest') {
+      console.log('is oldest');
+      const sortedArticles = [...articles].sort((a, b) => {
+        return new Date(a.content.date).getTime() - new Date(b.content.date).getTime();
+      });
+      console.log('is oldest', sortedArticles);
+      setFilteredArticles(sortedArticles);
+    } else {
+      setFilteredArticles(articles);
+    }
+  }, [sortOrder]);
 
   useEffect(() => {
     if (selectedFilter.length === 0) {
-      console.log('no filter', true);
       return;
     }
     const nextArticleList = articleWithFilters.filter((article: any) => {
@@ -54,8 +83,6 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
     })),
   ].sort((a, b) => a.order - b.order);
 
-  console.log('gridItems', gridItems);
-
   return (
     <div {...storyblokEditable(blok)}>
       <BackgroundGradient background="grey" />
@@ -70,13 +97,19 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
         </div>
       </div>
 
-      <FilterList filterOptions={uniqueFilters} onFilterChange={handleFilterChange} />
+      <FilterList
+        filterOptions={uniqueFilters}
+        onFilterChange={handleFilterChange}
+        onSortChange={handleSortChange}
+      />
       <div className={styles.grid}>
+        {/* TODO - Fix height on gridItems */}
         {gridItems &&
-          (selectedFilter.length > 0
+          (selectedFilter.length > 0 || sortOrder !== ''
             ? filteredArticles.map((article, index) => (
                 <div className={styles.gridItem} key={`article-${index}`}>
                   <ArticleTeaser article={article} />
+                  <h1>{article.content.date}</h1>
                 </div>
               ))
             : gridItems.map((item, index) => {

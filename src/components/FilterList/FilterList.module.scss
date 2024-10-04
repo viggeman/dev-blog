@@ -38,6 +38,7 @@
       padding: 1rem 2rem;
       background: var(--color-white);
       color: var(--color-black);
+      margin-right: 2rem;
       cursor: pointer;
 
       &:hover {
@@ -50,8 +51,39 @@
         color: var(--color-white);
       }
     }
+    .resetButton {
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 1.2rem;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
+  .sortWrap {
+    display: flex;
+    align-items: center;
+
+    .sortSelect {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-gray);
+      background-color: var(--color-white);
+      color: var(--color-black);
+      cursor: pointer;
+
+      &:hover {
+        border-color: var(--color-black-hover);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+      }
+    }
+  }
   .listFilter {
     background-color: var(--color-white);
     border-radius: 1rem;
