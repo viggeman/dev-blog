@@ -80,3 +80,9 @@
     @content;
   }
 }
+
+@mixin lg_desktop() {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}

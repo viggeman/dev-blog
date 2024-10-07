@@ -15,17 +15,23 @@ interface Props {
 const BlogListingPage: FC<Props> = ({ blok, articles }) => {
   const { image, title, highlight } = blok;
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
-  const [filteredArticles, setFilteredArticles] = useState<any[]>([]);
+
   const [sortOrder, setSortOrder] = useState<string>('');
+  const [listedArticles, setListedArticles] = useState<any[]>([]);
+
+  if (listedArticles.length === 0) {
+    setListedArticles(articles);
+  }
 
   const articleWithFilters = articles.filter((article: any) => article.content.category);
 
-  const availableFilters = articleWithFilters.flatMap((article: any) => article.content.category);
-
-  const uniqueFilters: string[] = Array.from(new Set(availableFilters));
-
-  const newDateTest = Date.now();
-  console.log('newdate', newDateTest);
+  const uniqueFilters: string[] = Array.from(
+    new Set(
+      articles
+        .filter((article: any) => article.content.category)
+        .flatMap((article: any) => article.content.category)
+    )
+  );
 
   const handleFilterChange = (filters: string[]) => {
     setSelectedFilter(filters);
@@ -34,41 +40,45 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
   const handleSortChange = (sort: string) => {
     setSortOrder(sort);
   };
-  console.log('sortOrder', sortOrder);
 
-  // TODO - Fix sorting filter bug
+  const sortArticleListing = (list: any[]) => {
+    if (sortOrder === 'newest') {
+      const sortedArticles = [...list].sort((a, b) => {
+        return new Date(b.content.date).getTime() - new Date(a.content.date).getTime();
+      });
+
+      setListedArticles(sortedArticles);
+    } else if (sortOrder === 'oldest') {
+      const sortedArticles = [...list].sort((a, b) => {
+        return new Date(a.content.date).getTime() - new Date(b.content.date).getTime();
+      });
+
+      setListedArticles(sortedArticles);
+    } else {
+      setListedArticles(list);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFilter.length === 0) {
+      setListedArticles(articles);
+      return;
+    }
+
+    const filterMatch = articleWithFilters.filter((article: any) => {
+      return selectedFilter.some((filter) => article.content.category.includes(filter));
+    });
+
+    sortArticleListing(filterMatch);
+  }, [selectedFilter]);
+
   useEffect(() => {
     if (sortOrder === '') {
       return;
     }
-    if (sortOrder === 'newest') {
-      console.log('is newest');
-      const sortedArticles = [...articles].sort((a, b) => {
-        return new Date(b.content.date).getTime() - new Date(a.content.date).getTime();
-      });
-      console.log('new sort', sortedArticles);
-      setFilteredArticles(sortedArticles);
-    } else if (sortOrder === 'oldest') {
-      console.log('is oldest');
-      const sortedArticles = [...articles].sort((a, b) => {
-        return new Date(a.content.date).getTime() - new Date(b.content.date).getTime();
-      });
-      console.log('is oldest', sortedArticles);
-      setFilteredArticles(sortedArticles);
-    } else {
-      setFilteredArticles(articles);
-    }
-  }, [sortOrder]);
 
-  useEffect(() => {
-    if (selectedFilter.length === 0) {
-      return;
-    }
-    const nextArticleList = articleWithFilters.filter((article: any) => {
-      return selectedFilter.some((filter) => article.content.category.includes(filter));
-    });
-    setFilteredArticles(nextArticleList);
-  }, [selectedFilter]);
+    sortArticleListing(listedArticles);
+  }, [sortOrder]);
 
   const gridItems = [
     ...highlight.map((highlightItem: any) => ({
@@ -98,15 +108,14 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
       </div>
 
       <FilterList
-        filterOptions={uniqueFilters}
+        filters={uniqueFilters}
         onFilterChange={handleFilterChange}
         onSortChange={handleSortChange}
       />
       <div className={styles.grid}>
-        {/* TODO - Fix height on gridItems */}
         {gridItems &&
           (selectedFilter.length > 0 || sortOrder !== ''
-            ? filteredArticles.map((article, index) => (
+            ? listedArticles.map((article, index) => (
                 <div className={styles.gridItem} key={`article-${index}`}>
                   <ArticleTeaser article={article} />
                   <h1>{article.content.date}</h1>
