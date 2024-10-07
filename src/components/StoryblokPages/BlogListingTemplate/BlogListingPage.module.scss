@@ -61,10 +61,7 @@
   padding-bottom: var(--bottom-gap);
 
   .gridItem {
-    height: 52vh;
-    @include lg_desktop {
-      height: 60vh;
-    }
+    height: 100%;
   }
 
   @include mobile {

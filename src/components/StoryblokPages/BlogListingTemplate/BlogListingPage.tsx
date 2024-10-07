@@ -15,15 +15,8 @@ interface Props {
 const BlogListingPage: FC<Props> = ({ blok, articles }) => {
   const { image, title, highlight } = blok;
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
-
   const [sortOrder, setSortOrder] = useState<string>('');
   const [listedArticles, setListedArticles] = useState<any[]>([]);
-
-  if (listedArticles.length === 0) {
-    setListedArticles(articles);
-  }
-
-  const articleWithFilters = articles.filter((article: any) => article.content.category);
 
   const uniqueFilters: string[] = Array.from(
     new Set(
@@ -41,44 +34,31 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
     setSortOrder(sort);
   };
 
-  const sortArticleListing = (list: any[]) => {
-    if (sortOrder === 'newest') {
-      const sortedArticles = [...list].sort((a, b) => {
-        return new Date(b.content.date).getTime() - new Date(a.content.date).getTime();
-      });
+  const sortArticles = (list: any[], order: string) => {
+    const sortedArticles = [...list].sort((a, b) => {
+      const dateA = new Date(a.content.date).getTime();
+      const dateB = new Date(b.content.date).getTime();
 
-      setListedArticles(sortedArticles);
-    } else if (sortOrder === 'oldest') {
-      const sortedArticles = [...list].sort((a, b) => {
-        return new Date(a.content.date).getTime() - new Date(b.content.date).getTime();
-      });
+      return order === 'newest' ? dateB - dateA : dateA - dateB;
+    });
 
-      setListedArticles(sortedArticles);
-    } else {
-      setListedArticles(list);
-    }
+    return sortedArticles;
   };
 
   useEffect(() => {
-    if (selectedFilter.length === 0) {
-      setListedArticles(articles);
-      return;
+    let filteredArticles =
+      selectedFilter.length > 0
+        ? articles.filter((article: any) =>
+            selectedFilter.some((filter) => article.content.category.includes(filter))
+          )
+        : articles;
+
+    if (sortOrder) {
+      filteredArticles = sortArticles(filteredArticles, sortOrder);
     }
 
-    const filterMatch = articleWithFilters.filter((article: any) => {
-      return selectedFilter.some((filter) => article.content.category.includes(filter));
-    });
-
-    sortArticleListing(filterMatch);
-  }, [selectedFilter]);
-
-  useEffect(() => {
-    if (sortOrder === '') {
-      return;
-    }
-
-    sortArticleListing(listedArticles);
-  }, [sortOrder]);
+    setListedArticles(filteredArticles);
+  }, [selectedFilter, sortOrder]);
 
   const gridItems = [
     ...highlight.map((highlightItem: any) => ({
@@ -92,7 +72,6 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
       data: article,
     })),
   ].sort((a, b) => a.order - b.order);
-
   return (
     <div {...storyblokEditable(blok)}>
       <BackgroundGradient background="grey" />
