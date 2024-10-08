@@ -2,29 +2,46 @@ import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import BackgroundGradient from '@/components/BackgroundGradient/BackgroundGradient';
 import FeaturedHighlight from '@/components/FeaturedHighlight/FeaturedHighlight';
 import FilterList from '@/components/FilterList/FilterList';
+import Pagination from '@/components/Pagination/Pagination';
+import getBlogPosts from '@/utils/getBlogPosts';
 import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import styles from './BlogListingPage.module.scss';
 
 interface Props {
   blok: any;
   articles: any;
+  pagination: any;
 }
 
-const BlogListingPage: FC<Props> = ({ blok, articles }) => {
+const BlogListingPage: FC<Props> = ({ blok, articles, pagination }) => {
+  const router = useRouter();
   const { image, title, highlight } = blok;
+  const { query } = router;
+  const { totalPosts, postsPerPage } = pagination;
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>('');
   const [listedArticles, setListedArticles] = useState<any[]>([]);
+  const [uniqueFilters, setUniqueFilters] = useState<string[]>([]);
 
-  const uniqueFilters: string[] = Array.from(
-    new Set(
-      articles
-        .filter((article: any) => article.content.category)
-        .flatMap((article: any) => article.content.category)
-    )
-  );
+  useEffect(() => {
+    const uniqueFilters: string[] = Array.from(
+      new Set(
+        articles
+          .filter((article: any) => article.content.category)
+          .flatMap((article: any) => article.content.category)
+      )
+    );
+    setUniqueFilters(uniqueFilters);
+  }, [searchParams, pathname]);
 
   const handleFilterChange = (filters: string[]) => {
     setSelectedFilter(filters);
@@ -34,6 +51,7 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
     setSortOrder(sort);
   };
 
+  // TODO - add to a custom hook, good practice
   const sortArticles = (list: any[], order: string) => {
     const sortedArticles = [...list].sort((a, b) => {
       const dateA = new Date(a.content.date).getTime();
@@ -44,6 +62,18 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
 
     return sortedArticles;
   };
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const newBlogPosts = await getBlogPosts(searchParams.get('page'));
+        setListedArticles(newBlogPosts);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    };
+    fetchBlogPosts();
+  }, [searchParams, pathname]);
 
   useEffect(() => {
     let filteredArticles =
@@ -72,6 +102,7 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
       data: article,
     })),
   ].sort((a, b) => a.order - b.order);
+
   return (
     <div {...storyblokEditable(blok)}>
       <BackgroundGradient background="grey" />
@@ -91,9 +122,10 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
         onFilterChange={handleFilterChange}
         onSortChange={handleSortChange}
       />
+      <Pagination totalPages={totalPages} />
       <div className={styles.grid}>
         {gridItems &&
-          (selectedFilter.length > 0 || sortOrder !== ''
+          (selectedFilter.length > 0 || sortOrder !== '' || query
             ? listedArticles.map((article, index) => (
                 <div className={styles.gridItem} key={`article-${index}`}>
                   <ArticleTeaser article={article} />

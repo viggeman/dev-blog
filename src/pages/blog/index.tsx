@@ -1,16 +1,24 @@
 import getGlobalData from '@/utils/getGlobalData';
-import { getStoryblokApi, ISbStoriesParams, StoryblokComponent } from '@storyblok/react';
+import {
+  getStoryblokApi,
+  ISbStories,
+  ISbStoriesParams,
+  StoryblokComponent,
+} from '@storyblok/react';
 import { FC } from 'react';
 
 interface Props {
   blogData: any[];
   pageData: any;
+  pagination: any;
 }
 
-const BlogIndex: FC<Props> = ({ blogData, pageData }) => {
+const postsPerPage = 12;
+
+const BlogIndex: FC<Props> = ({ blogData, pageData, pagination }) => {
   return (
     <>
-      <StoryblokComponent blok={pageData.content} articles={blogData} />
+      <StoryblokComponent blok={pageData.content} articles={blogData} pagination={pagination} />
     </>
   );
 };
@@ -22,6 +30,7 @@ export async function getStaticProps() {
     version: 'draft',
     content_type: 'blog_page',
     resolve_links: 'url',
+    per_page: postsPerPage,
   };
   let pageParams: ISbStoriesParams = {
     version: 'draft',
@@ -31,6 +40,18 @@ export async function getStaticProps() {
     let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
     let { data: pageData } = await storyblokApi.get(`cdn/stories/blog`, pageParams);
 
+    const { data: blogPostLinks }: ISbStories = await storyblokApi.get(`cdn/links`, {
+      version: 'draft',
+      starts_with: 'blog/',
+    });
+
+    // Filter out the BlogListingIndex page
+    const filteredBlogPostLinks = Object.values(blogPostLinks.links).filter(
+      (link: any) => !link.is_startpage
+    );
+
+    const totalPosts = Object.keys(filteredBlogPostLinks).length;
+
     let globalData = await getGlobalData();
 
     return {
@@ -38,6 +59,10 @@ export async function getStaticProps() {
         blogData: blogData.stories,
         pageData: pageData.story,
         globalData: globalData,
+        pagination: {
+          totalPosts: totalPosts,
+          postsPerPage: postsPerPage,
+        },
       },
       revalidate: 3600,
     };

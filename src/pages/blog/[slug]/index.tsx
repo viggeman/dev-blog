@@ -19,6 +19,8 @@ const Blog: FC<Props> = ({ story }) => {
 export async function getStaticProps({ params }: any) {
   const slug = params.slug;
 
+  console.log('slug', params);
+
   let sbParams: ISbStoriesParams = {
     version: 'draft', // or 'published'
     resolve_links: 'url',

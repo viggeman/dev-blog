@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styles from './FilterList.module.scss';
 
 interface Props {
-  filters: string[];
+  filters: any[];
   onFilterChange: (selectedFilter: string[]) => void;
   onSortChange: (sort: string) => void;
 }
