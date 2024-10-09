@@ -6,8 +6,7 @@ import Pagination from '@/components/Pagination/Pagination';
 import getBlogPosts from '@/utils/getBlogPosts';
 import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import styles from './BlogListingPage.module.scss';
 
@@ -18,30 +17,33 @@ interface Props {
 }
 
 const BlogListingPage: FC<Props> = ({ blok, articles, pagination }) => {
-  const router = useRouter();
   const { image, title, highlight } = blok;
-  const { query } = router;
-  const { totalPosts, postsPerPage } = pagination;
+  const { totalPages, postsPerPage } = pagination;
+  const createGridItems = (next: any[]) => {
+    const gridItems = [
+      ...highlight.map((highlightItem: any) => ({
+        component: highlightItem.component,
+        order: highlightItem.order,
+        data: highlightItem,
+      })),
+      ...next.map((article: any, index: number) => ({
+        component: article.content.component,
+        order: index + 1,
+        data: article,
+      })),
+    ].sort((a, b) => a.order - b.order);
+    return gridItems;
+  };
 
-  const pathname = usePathname();
+  const initialArticles = createGridItems(articles);
   const searchParams = useSearchParams();
-  const totalPages = Math.ceil(totalPosts / postsPerPage);
-
+  const pageParam = searchParams.get('page');
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>('');
-  const [listedArticles, setListedArticles] = useState<any[]>([]);
+  const [listedArticles, setListedArticles] = useState<any[]>(articles);
+  const [gridItems, setGridItemsState] = useState<any[]>(initialArticles);
+  const [filteredArticles, setFilteredArticles] = useState<any[]>([]);
   const [uniqueFilters, setUniqueFilters] = useState<string[]>([]);
-
-  useEffect(() => {
-    const uniqueFilters: string[] = Array.from(
-      new Set(
-        articles
-          .filter((article: any) => article.content.category)
-          .flatMap((article: any) => article.content.category)
-      )
-    );
-    setUniqueFilters(uniqueFilters);
-  }, [searchParams, pathname]);
 
   const handleFilterChange = (filters: string[]) => {
     setSelectedFilter(filters);
@@ -53,55 +55,65 @@ const BlogListingPage: FC<Props> = ({ blok, articles, pagination }) => {
 
   // TODO - add to a custom hook, good practice
   const sortArticles = (list: any[], order: string) => {
-    const sortedArticles = [...list].sort((a, b) => {
+    return [...list].sort((a, b) => {
       const dateA = new Date(a.content.date).getTime();
       const dateB = new Date(b.content.date).getTime();
 
       return order === 'newest' ? dateB - dateA : dateA - dateB;
     });
-
-    return sortedArticles;
   };
 
   useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        const newBlogPosts = await getBlogPosts(searchParams.get('page'));
-        setListedArticles(newBlogPosts);
-      } catch (error: any) {
-        console.error(error.message);
-      }
-    };
-    fetchBlogPosts();
-  }, [searchParams, pathname]);
+    const uniqueFilters: string[] = Array.from(
+      new Set(
+        listedArticles
+          .filter((article: any) => article.content.category)
+          .flatMap((article: any) => article.content.category)
+      )
+    );
+
+    setUniqueFilters(uniqueFilters);
+  }, [listedArticles]);
+
+  useEffect(() => {
+    if (!pageParam) {
+      setListedArticles(articles);
+      setGridItemsState(initialArticles);
+    }
+    if (pageParam) {
+      console.log('This runs');
+      const fetchBlogPosts = async () => {
+        setSelectedFilter([]);
+        setSortOrder('');
+        try {
+          const newBlogPosts = await getBlogPosts(Number(pageParam), postsPerPage);
+          const nextBlogPosts = [...listedArticles, ...newBlogPosts];
+          console.log('next', nextBlogPosts);
+          setListedArticles(nextBlogPosts);
+          const gridItems = createGridItems(nextBlogPosts);
+          setGridItemsState(gridItems);
+        } catch (error: any) {
+          console.error(error.message);
+        }
+      };
+      fetchBlogPosts();
+    }
+  }, [pageParam, searchParams]);
 
   useEffect(() => {
     let filteredArticles =
       selectedFilter.length > 0
-        ? articles.filter((article: any) =>
+        ? listedArticles.filter((article: any) =>
             selectedFilter.some((filter) => article.content.category.includes(filter))
           )
-        : articles;
+        : listedArticles;
 
     if (sortOrder) {
       filteredArticles = sortArticles(filteredArticles, sortOrder);
     }
 
-    setListedArticles(filteredArticles);
+    setFilteredArticles(filteredArticles);
   }, [selectedFilter, sortOrder]);
-
-  const gridItems = [
-    ...highlight.map((highlightItem: any) => ({
-      component: highlightItem.component,
-      order: highlightItem.order,
-      data: highlightItem,
-    })),
-    ...articles.map((article: any, index: number) => ({
-      component: article.content.component,
-      order: index + 1,
-      data: article,
-    })),
-  ].sort((a, b) => a.order - b.order);
 
   return (
     <div {...storyblokEditable(blok)}>
@@ -124,30 +136,24 @@ const BlogListingPage: FC<Props> = ({ blok, articles, pagination }) => {
       />
       <Pagination totalPages={totalPages} />
       <div className={styles.grid}>
-        {gridItems &&
-          (selectedFilter.length > 0 || sortOrder !== '' || query
-            ? listedArticles.map((article, index) => (
+        {listedArticles &&
+          (selectedFilter.length > 0 || sortOrder !== ''
+            ? filteredArticles.map((article, index) => (
                 <div className={styles.gridItem} key={`article-${index}`}>
                   <ArticleTeaser article={article} />
                   <h1>{article.content.date}</h1>
                 </div>
               ))
-            : gridItems.map((item, index) => {
-                if (item.component === 'component_featured_highlight') {
-                  return (
-                    <div className={styles.gridItem} key={`highlight-${index}`}>
-                      <FeaturedHighlight highlight={item.data} />
-                    </div>
-                  );
-                } else if (item.component === 'blog_page') {
-                  return (
-                    <div className={styles.gridItem} key={`article-${index}`}>
-                      <ArticleTeaser article={item.data} />
-                    </div>
-                  );
-                }
-                return null;
-              }))}
+            : gridItems.map((item, index) => (
+                <div className={styles.gridItem} key={`item-${index}`}>
+                  {item.component === 'component_featured_highlight' ? (
+                    <FeaturedHighlight highlight={item.data} />
+                  ) : item.component === 'blog_page' ? (
+                    <ArticleTeaser article={item.data} />
+                  ) : null}
+                  <h1>hej</h1>
+                </div>
+              )))}
       </div>
     </div>
   );

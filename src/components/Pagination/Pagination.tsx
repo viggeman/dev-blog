@@ -9,51 +9,32 @@ interface Props {
 
 const Pagination: FC<Props> = ({ totalPages }) => {
   const router = useRouter();
-  const pageQuery = Number(router.query.page) || 1;
-  const [pageCount, setPageCount] = useState<number>(pageQuery);
+  const pageQuery = router.query.page ? Number(router.query.page) : 0;
   const [previousHref, setPreviousHref] = useState({});
   const [nextHref, setNextHref] = useState({});
 
   useEffect(() => {
     setPreviousHref({
       pathname: router.pathname,
-      query: pageCount > 1 ? { page: pageCount - 1 } : undefined,
+      query: pageQuery > 1 ? { page: pageQuery - 1 } : undefined,
     });
-
     setNextHref({
       pathname: router.pathname,
-      query: { page: pageCount + 1 },
+      query: { page: pageQuery + 1 },
     });
-  }, [pageCount, router.pathname]);
-
-  useEffect(() => {
-    setPageCount(pageQuery);
-  }, [pageQuery]);
-
-  const handlePageChange = (value: number) => {
-    const newPage = pageCount + value;
-    setPageCount(newPage);
-  };
+  }, [pageQuery, router.pathname]);
 
   return (
     <div className={styles.container}>
-      {pageCount !== 0 && (
+      {pageQuery !== 0 && (
         <Link href={previousHref} passHref>
-          <button type="button" onClick={() => handlePageChange(-1)}>
-            Previous
-          </button>
+          Previous
         </Link>
       )}
       <span>{totalPages}</span>
-      {pageCount < totalPages && (
+      {pageQuery < totalPages - 1 && (
         <Link href={nextHref} passHref>
-          <button
-            type="button"
-            onClick={() => handlePageChange(1)}
-            disabled={pageCount >= totalPages}
-          >
-            Next
-          </button>
+          Next
         </Link>
       )}
     </div>

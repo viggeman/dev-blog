@@ -1,20 +1,18 @@
 import { getStoryblokApi, ISbStoriesParams } from '@storyblok/react';
 
-export async function getBlogPosts(index: any) {
-  console.log('index', index);
+export async function getBlogPosts(index: any, postsPerPage: number) {
   const storyblokApi = getStoryblokApi();
 
   const sbParams: ISbStoriesParams = {
     version: 'draft',
     content_type: 'blog_page',
     resolve_links: 'url',
-    per_page: 12,
-    page: index,
+    per_page: postsPerPage,
+    page: index + 1,
   };
 
   try {
     const { data: blogData } = await storyblokApi.get('cdn/stories', sbParams);
-    console.log('blogData', blogData);
 
     return blogData.stories;
   } catch (error: any) {

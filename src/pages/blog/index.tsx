@@ -13,7 +13,7 @@ interface Props {
   pagination: any;
 }
 
-const postsPerPage = 12;
+const postsPerPage = 6;
 
 const BlogIndex: FC<Props> = ({ blogData, pageData, pagination }) => {
   return (
@@ -26,19 +26,19 @@ const BlogIndex: FC<Props> = ({ blogData, pageData, pagination }) => {
 export async function getStaticProps() {
   const storyblokApi = getStoryblokApi();
 
-  let blogParams: ISbStoriesParams = {
+  const blogParams: ISbStoriesParams = {
     version: 'draft',
     content_type: 'blog_page',
     resolve_links: 'url',
     per_page: postsPerPage,
   };
-  let pageParams: ISbStoriesParams = {
+  const pageParams: ISbStoriesParams = {
     version: 'draft',
   };
 
   try {
-    let { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
-    let { data: pageData } = await storyblokApi.get(`cdn/stories/blog`, pageParams);
+    const { data: blogData } = await storyblokApi.get(`cdn/stories`, blogParams);
+    const { data: pageData } = await storyblokApi.get(`cdn/stories/blog`, pageParams);
 
     const { data: blogPostLinks }: ISbStories = await storyblokApi.get(`cdn/links`, {
       version: 'draft',
@@ -51,8 +51,9 @@ export async function getStaticProps() {
     );
 
     const totalPosts = Object.keys(filteredBlogPostLinks).length;
+    const totalPages = Math.ceil(totalPosts / postsPerPage);
 
-    let globalData = await getGlobalData();
+    const globalData = await getGlobalData();
 
     return {
       props: {
@@ -61,6 +62,7 @@ export async function getStaticProps() {
         globalData: globalData,
         pagination: {
           totalPosts: totalPosts,
+          totalPages: totalPages,
           postsPerPage: postsPerPage,
         },
       },
