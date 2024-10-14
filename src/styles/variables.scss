@@ -36,7 +36,7 @@
   --color-pending: rgb(var(--color-pending-rgb));
   --color-success: rgb(var(--color-success-rgb));
 
-  --header-z-index: 50;
-  --dialog-z-index: 100;
+  --header-z-index: 100;
+  --dialog-z-index: 50;
   --backdrop-z-index: 75;
 }
