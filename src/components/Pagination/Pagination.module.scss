@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: var(--site-padding);
+  a {
+    display: flex;
+    text-transform: capitalize;
+    align-items: center;
+    justify-self: center;
+    width: max-content;
+    padding: 0 1.4rem;
+    height: 4rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: var(--color-black);
+    color: white;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-black-hover);
+    }
+  }
+}

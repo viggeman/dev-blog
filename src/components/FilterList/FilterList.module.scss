@@ -9,11 +9,19 @@
   margin-bottom: 2.4rem;
   position: relative;
 
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .titleWrap {
     display: flex;
     align-items: flex-end;
     width: auto;
     position: relative;
+    @include mobile {
+      margin-bottom: 1.6rem;
+    }
 
     .listTitle {
       @include md_title;
@@ -94,8 +102,11 @@
     margin-top: 1.2rem;
     max-height: 30rem;
     overflow-y: auto;
-    z-index: 99;
+    z-index: var(--dialog-z-index);
     scrollbar-width: none;
+    &.active {
+      display: none;
+    }
 
     .innerContainer {
       position: relative;

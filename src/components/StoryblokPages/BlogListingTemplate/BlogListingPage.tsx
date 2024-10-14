@@ -2,29 +2,29 @@ import ArticleTeaser from '@/components/ArticleTeaser/ArticleTeaser';
 import BackgroundGradient from '@/components/BackgroundGradient/BackgroundGradient';
 import FeaturedHighlight from '@/components/FeaturedHighlight/FeaturedHighlight';
 import FilterList from '@/components/FilterList/FilterList';
+import Pagination from '@/components/Pagination/Pagination';
+import getBlogPosts from '@/utils/getBlogPosts';
 import { storyblokEditable } from '@storyblok/react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import styles from './BlogListingPage.module.scss';
 
 interface Props {
   blok: any;
   articles: any;
+  pagination: any;
 }
 
-const BlogListingPage: FC<Props> = ({ blok, articles }) => {
+const BlogListingPage: FC<Props> = ({ blok, articles, pagination }) => {
   const { image, title, highlight } = blok;
+  const { totalPages, postsPerPage } = pagination;
+  const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>('');
-  const [listedArticles, setListedArticles] = useState<any[]>([]);
-
-  const uniqueFilters: string[] = Array.from(
-    new Set(
-      articles
-        .filter((article: any) => article.content.category)
-        .flatMap((article: any) => article.content.category)
-    )
-  );
+  const [listedArticles, setListedArticles] = useState<any[]>(articles);
+  const [filteredArticles, setFilteredArticles] = useState<any[]>([]);
+  const [uniqueFilters, setUniqueFilters] = useState<string[]>([]);
 
   const handleFilterChange = (filters: string[]) => {
     setSelectedFilter(filters);
@@ -34,44 +34,60 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
     setSortOrder(sort);
   };
 
+  // TODO - add to a custom hook, good practice
   const sortArticles = (list: any[], order: string) => {
-    const sortedArticles = [...list].sort((a, b) => {
+    return [...list].sort((a, b) => {
       const dateA = new Date(a.content.date).getTime();
       const dateB = new Date(b.content.date).getTime();
 
       return order === 'newest' ? dateB - dateA : dateA - dateB;
     });
-
-    return sortedArticles;
   };
+
+  useEffect(() => {
+    const uniqueFilters: string[] = Array.from(
+      new Set(
+        listedArticles
+          .filter((article: any) => article.content.category)
+          .flatMap((article: any) => article.content.category)
+      )
+    );
+
+    setUniqueFilters(uniqueFilters);
+  }, [listedArticles]);
+
+  useEffect(() => {
+    const fetchBlogPosts = async (page: number) => {
+      try {
+        const newBlogPosts = await getBlogPosts(postsPerPage, page);
+        setListedArticles((prevArticles) => [...prevArticles, ...newBlogPosts]);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      }
+    };
+    const pageQuery = Number(router.query.page) + 1;
+    if (pageQuery && pageQuery <= totalPages) {
+      fetchBlogPosts(pageQuery);
+    } else {
+      setListedArticles(articles);
+    }
+  }, [router.query.page, postsPerPage]);
 
   useEffect(() => {
     let filteredArticles =
       selectedFilter.length > 0
-        ? articles.filter((article: any) =>
+        ? listedArticles.filter((article: any) =>
             selectedFilter.some((filter) => article.content.category.includes(filter))
           )
-        : articles;
+        : listedArticles;
 
     if (sortOrder) {
       filteredArticles = sortArticles(filteredArticles, sortOrder);
     }
 
-    setListedArticles(filteredArticles);
+    setFilteredArticles(filteredArticles);
   }, [selectedFilter, sortOrder]);
 
-  const gridItems = [
-    ...highlight.map((highlightItem: any) => ({
-      component: highlightItem.component,
-      order: highlightItem.order,
-      data: highlightItem,
-    })),
-    ...articles.map((article: any, index: number) => ({
-      component: article.content.component,
-      order: index + 1,
-      data: article,
-    })),
-  ].sort((a, b) => a.order - b.order);
   return (
     <div {...storyblokEditable(blok)}>
       <BackgroundGradient background="grey" />
@@ -92,31 +108,35 @@ const BlogListingPage: FC<Props> = ({ blok, articles }) => {
         onSortChange={handleSortChange}
       />
       <div className={styles.grid}>
-        {gridItems &&
+        {listedArticles &&
           (selectedFilter.length > 0 || sortOrder !== ''
-            ? listedArticles.map((article, index) => (
-                <div className={styles.gridItem} key={`article-${index}`}>
+            ? filteredArticles.map((article, index) => (
+                <div className={styles.gridItem} key={index} style={{ order: index }}>
                   <ArticleTeaser article={article} />
-                  <h1>{article.content.date}</h1>
                 </div>
               ))
-            : gridItems.map((item, index) => {
-                if (item.component === 'component_featured_highlight') {
-                  return (
-                    <div className={styles.gridItem} key={`highlight-${index}`}>
-                      <FeaturedHighlight highlight={item.data} />
-                    </div>
-                  );
-                } else if (item.component === 'blog_page') {
-                  return (
-                    <div className={styles.gridItem} key={`article-${index}`}>
-                      <ArticleTeaser article={item.data} />
-                    </div>
-                  );
-                }
-                return null;
-              }))}
+            : [
+                ...highlight.map((item: any, index: any) => (
+                  <div
+                    className={`${styles.gridItem} ${styles.highlightItem}`}
+                    key={`highlight-${index}`}
+                    style={{ order: item.order }}
+                  >
+                    <FeaturedHighlight highlight={item} />
+                  </div>
+                )),
+                ...listedArticles.map((article, index) => (
+                  <div
+                    className={styles.gridItem}
+                    key={`article-${index}`}
+                    style={{ order: index + 1 }}
+                  >
+                    <ArticleTeaser article={article} />
+                  </div>
+                )),
+              ])}
       </div>
+      <Pagination totalPages={totalPages} />
     </div>
   );
 };
