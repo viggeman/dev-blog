@@ -8,7 +8,6 @@ interface Props {
 
 const FeaturedHighlight: FC<Props> = ({ highlight }) => {
   const { title, image, order } = highlight;
-  console.log('order', order);
   return (
     <div className={styles.container}>
       <div className={styles.textWrapper}>

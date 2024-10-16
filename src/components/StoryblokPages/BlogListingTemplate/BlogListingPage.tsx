@@ -34,7 +34,6 @@ const BlogListingPage: FC<Props> = ({ blok, articles, pagination }) => {
     setSortOrder(sort);
   };
 
-  // TODO - add to a custom hook, good practice
   const sortArticles = (list: any[], order: string) => {
     return [...list].sort((a, b) => {
       const dateA = new Date(a.content.date).getTime();
