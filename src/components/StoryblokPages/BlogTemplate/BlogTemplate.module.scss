@@ -39,7 +39,7 @@
       position: sticky;
       top: 13rem;
       // top: calc(var(--site-padding) + var(--header-height));
-      height: calc(100vh - 4rem);
+      height: calc(30vh - 4rem);
 
       @include mobile {
         position: static;

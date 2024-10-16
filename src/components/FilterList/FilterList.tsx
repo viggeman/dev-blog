@@ -93,7 +93,7 @@ const FilterList: FC<Props> = ({ filters, onFilterChange, onSortChange }) => {
             ))}
           </ul>
         </div>
-      </div>
+      </div>{' '}
     </div>
   );
 };

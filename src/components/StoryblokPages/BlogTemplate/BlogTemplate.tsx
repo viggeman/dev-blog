@@ -38,7 +38,7 @@ const BlogTemplate: FC<Props> = ({ blok }) => {
     const options = {
       root: null,
       // rootMargin works for some reason with full negative values
-      rootMargin: '-15% 0px -85% 0px',
+      rootMargin: '-13% 0px -82% 0px',
       threshold: 0,
     };
 
